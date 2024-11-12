@@ -8,7 +8,6 @@ let isManual = false;
 let i = 0;
 let minIndex = 0;
 
-
 function generateArray() {
     array = Array.from({ length: 20 }, () => Math.floor(Math.random() * 200) + 10);
     renderArray();
@@ -39,8 +38,6 @@ function delay(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-
-
 async function automaticSort() {
     isSorting = true;
     isManual = false;
@@ -51,12 +48,13 @@ async function automaticSort() {
         minIndex = i;
         bars[minIndex].style.backgroundColor = "blue"; 
         updateDebugText(`Finding the minimum element starting from index ${i}`);
+        await delay(300);  // Delay to make the color change smooth
 
         for (let j = i + 1; j < array.length; j++) {
             if (!isSorting) return; 
 
             bars[j].style.backgroundColor = "red";
-                        await delay(300);
+            await delay(200);  // Smoother transition between comparisons
 
             if (array[j] < array[minIndex]) {
                 bars[minIndex].style.backgroundColor = "#4CAF50"; 
@@ -66,29 +64,28 @@ async function automaticSort() {
             } else {
                 bars[j].style.backgroundColor = "#4CAF50"; 
             }
-            await delay(300);
+            await delay(200);  // Delay to visualize each comparison
         }
 
         if (minIndex !== i) {
             [array[i], array[minIndex]] = [array[minIndex], array[i]];
             renderArray();
+            await delay(300);  // Delay to see the swap happen
             updateDebugText(`Swapped element at index ${i} with minimum at index ${minIndex}`);
         }
 
         bars[i].style.backgroundColor = "#4CAF50";
+        await delay(200);  // Smooth marking as sorted
     }
 
     updateDebugText("Array is fully sorted!");
     isSorting = false;
 }
 
-
-function manualSortStep() {
+async function manualSortStep() {
     const bars = document.getElementsByClassName("bar");
-
     Array.from(bars).forEach(bar => bar.style.backgroundColor = "#4CAF50");
 
-    
     if (i >= array.length - 1) {
         updateDebugText("Array is fully sorted!");
         stepButton.disabled = true;
@@ -98,12 +95,14 @@ function manualSortStep() {
     minIndex = i;
     bars[minIndex].style.backgroundColor = "blue"; 
     updateDebugText(`Finding the minimum element starting from index ${i}`);
+    await delay(300);  // Smooth the initial color change
 
     let j = i + 1;
     for (j; j < array.length; j++) {
-        if (!isManual) return; 
+        if (!isManual) return;
 
         bars[j].style.backgroundColor = "red"; 
+        await delay(200);  // Delay to visualize comparisons
 
         if (array[j] < array[minIndex]) {
             bars[minIndex].style.backgroundColor = "#4CAF50"; 
@@ -113,11 +112,15 @@ function manualSortStep() {
         } else {
             bars[j].style.backgroundColor = "#4CAF50"; 
         }
+        await delay(200);  // Delay to visualize each comparison
     }
 
     if (minIndex !== i) {
-        [array[i], array[minIndex]] = [array[minIndex], array[i]]; // Swap
-        renderArray();
+
+        bars[j].style.backgroundColor = "blue"; 
+        [array[i], array[minIndex]] = [array[minIndex], array[i]]; 
+       
+        await delay(300);  // Smooth the swap animation
         updateDebugText(`Swapped element at index ${i} with minimum at index ${minIndex}`);
     }
 
@@ -138,7 +141,6 @@ function stepSort() {
     }
 }
 
-
 function startAutomaticSort() {
     if (!isSorting) {
         isManual = false; 
@@ -153,5 +155,5 @@ function resetArray() {
     generateArray();
 }
 
-
+// Initial array generation
 generateArray();

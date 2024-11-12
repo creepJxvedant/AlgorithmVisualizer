@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bubble Sort Visualizer with Debug and Step Modes</title>
+    <link rel="stylesheet" href="Insertion.css">
+</head>
+<body>
+    <h1>Bubble Sort Visualizer</h1>
+    
+    <div id="array-container"></div>
+    
+    <div class="controls">
+        <button onclick="startAutomaticSort()">Automatic</button>
+        <button onclick="setManualMode()">Manual</button>
+        <button onclick="stepSort()" id="step-button" disabled>Step</button>
+        <button onclick="resetArray()">Reset</button>
+    </div>
+    
+    <div id="debug-panel">
+        <h2>Debug Info</h2>
+        <p id="debug-text">Press "Automatic" or "Manual" to begin sorting...</p>
+    </div>
+    
+    <script src="Insertion.js"></script>
+</body>
+</html>
