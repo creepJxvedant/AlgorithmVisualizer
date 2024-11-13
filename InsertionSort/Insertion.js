@@ -43,12 +43,12 @@ function setBarsGreen() {
 // Manual mode step-by-step insertion sort
 async function manualSortStep() {
     const bars = document.getElementsByClassName("bar");
-
+     j=i-1;
     Array.from(bars).forEach(bar => bar.style.backgroundColor = "#4CAF50");
 
     if (i >= array.length) {
         updateDebugText("Array is fully sorted!");
-        setBarsGreen();  // Turn all bars green when sorting is complete
+        setBarsGreen();  
         isSorting = false;
         stepButton.disabled = true;
         return;
@@ -71,10 +71,15 @@ async function manualSortStep() {
         i++;
         j = i;
     }
+    array[j + 1] = key;
+    bars[j + 1].style.height = `${key}px`;
+    bars[i].style.backgroundColor = "#4CAF50";
+    updateDebugText(`Inserted key ${key} at index ${j + 1}`);
 }
 
-// Automatic insertion sort
+
 async function automaticSort() {
+
     isSorting = true;
     const bars = document.getElementsByClassName("bar");
 
@@ -83,20 +88,23 @@ async function automaticSort() {
         let j = i - 1;
         
         bars[i].style.backgroundColor = "red";
-
+        await new Promise((resolve) => setTimeout(resolve, 400));
         while (j >= 0 && array[j] > key) {
             bars[j].style.backgroundColor = "blue";
             array[j + 1] = array[j];
             bars[j + 1].style.height = `${array[j + 1]}px`;
             j--;
 
-            await new Promise((resolve) => setTimeout(resolve, 300));
+            await new Promise((resolve) => setTimeout(resolve, 400));
         }
         array[j + 1] = key;
         bars[j + 1].style.height = `${key}px`;
         bars[i].style.backgroundColor = "#4CAF50";
         updateDebugText(`Inserted key ${key} at index ${j + 1}`);
 
+        for (let k = i-1; k>=0; k--) {
+            bars[k].style.backgroundColor = "#4CAF50";
+        }
         if (!isSorting) return;
     }
 

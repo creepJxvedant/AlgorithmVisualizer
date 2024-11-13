@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dijkstra's Algorithm - Manual & Automatic Mode</title>
+    <link rel="stylesheet" href="dijkstra.css">
+</head>
+<body>
+    <h1>Dijkstra's Algorithm - Manual & Automatic Mode</h1>
+
+    <div id="grid-container"></div>
+    
+    <div class="controls">
+        <button onclick="startManual()" id="start-manual">Start Manual</button>
+        <button onclick="startAutomatic()" id="start-automatic" >Start Automatic</button>
+        <button onclick="nextStep()" id="next-button" disabled>Next Step</button>
+        <button onclick="resetGrid()">Reset</button>
+    </div>
+
+    <div id="debug-panel">
+        <h2>Debug Info</h2>
+        <p id="debug-text">Click "Start Manual" to begin.</p>
+    </div>
+
+    <script src="dijkstra.js"></script>
+</body>
+</html>

@@ -1,12 +1,11 @@
-/* styles.css */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 0;
     padding: 0;
+    background-color: #f4f4f9;
 }
 
 h1 {
@@ -15,34 +14,38 @@ h1 {
     font-size: 24px;
 }
 
-#array-container {
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    height: 300px;
-    width: 70%;
-    margin: 20px auto;
-    background-color: #fff;
-    padding: 10px;
+#grid-container {
+    display: grid;
+    grid-template-columns: repeat(10, 30px);
+    grid-template-rows: repeat(10, 30px);
+    gap: 5px;
+    margin: 20px 0;
+}
+
+.cell {
+    width: 30px;
+    height: 30px;
+    background-color: #f4f4f9;
     border: 1px solid #ddd;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.bar {
-    width: 20px;
-    background-color: #4CAF50;
-    margin: 2px;
-    transition: all 0.4s ease;
-    border-radius: 3px;
-}
-
-.controls {
     display: flex;
-    flex-direction: row;
     justify-content: center;
-    margin-top: 20px;
-    gap: 15px;
+    align-items: center;
+}
+
+.start {
+    background-color: #4CAF50;
+}
+
+.end {
+    background-color: #F44336;
+}
+
+.visited {
+    background-color: #FFEB3B;
+}
+
+.path {
+    background-color: #2196F3;
 }
 
 button {
@@ -65,28 +68,13 @@ button:disabled {
     cursor: not-allowed;
 }
 
-#sidebar {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    background-color: #e0e0e0;
-    border-radius: 5px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    margin: 10px;
-    width: 220px;
-}
-
 #debug-panel {
-    width: 40%;
     margin-top: 20px;
     padding: 15px;
     background-color: #e0e0e0;
     border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     font-size: 16px;
     color: #333;
-    text-align: left;
 }
 
 #debug-text {
@@ -104,14 +92,4 @@ h2 {
     border-bottom: 2px solid #4CAF50;
     padding-bottom: 5px;
     margin-bottom: 10px;
-}
-
-input[type="range"] {
-    width: 100%;
-    margin-top: 10px;
-}
-
-#bar-width-value, #speed-value {
-    font-weight: bold;
-    color: #007BFF;
 }
