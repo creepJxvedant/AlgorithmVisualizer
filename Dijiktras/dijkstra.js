@@ -3,6 +3,8 @@ const numCols = 25;
 let grid = [];
 let startNode = null;
 let endNode = null;
+let start=null;
+let end=null;
 let openSet = [];
 let closedSet = [];
 let path = [];
@@ -79,13 +81,15 @@ function handleCellClick(div, cell) {
     if (!startNode) {
         startNode = cell;
         cell.isStart = true;
+        start=cell;
         div.classList.add('start');
     } else if (!endNode) {
         endNode = cell;
+        end=cell;
         cell.isEnd = true;
         div.classList.add('end');
     } else if (!cell.isStart && !cell.isEnd) {
-        cell.isWall = !cell.isWall; // Toggle wall state
+        cell.isWall = !cell.isWall; 
         div.classList.toggle('wall', cell.isWall);
     }
 }
@@ -137,8 +141,8 @@ function nextStep() {
     }
 
     updateNeighbors(current);
-
     document.querySelector(`[data-row="${current.row}"][data-col="${current.col}"]`).classList.add('visited');
+
     debugText.innerText = `Visiting node at (${current.row}, ${current.col})`;
 }
 
@@ -163,6 +167,9 @@ function reconstructPath() {
         temp = temp.previous;
     }
     path.forEach(node => document.querySelector(`[data-row="${node.row}"][data-col="${node.col}"]`).classList.add('path'));
+    
+   
+   console.log(document.querySelector(`[data-row="${startNode.row}"][data-col="${startNode.col}"]`).classList.add('path'));
     debugText.innerText = 'Path found!';
     nextButton.disabled = true;
 }
@@ -190,8 +197,8 @@ async function startAutomatic() {
         }
 
         updateNeighbors(current);
+            document.querySelector(`[data-row="${current.row}"][data-col="${current.col}"]`).classList.add('visited');
 
-        document.querySelector(`[data-row="${current.row}"][data-col="${current.col}"]`).classList.add('visited');
         debugText.innerText = `Visiting node at (${current.row}, ${current.col})`;
 
         await new Promise(resolve => setTimeout(resolve, 300));
@@ -200,5 +207,5 @@ async function startAutomatic() {
     debugText.innerText = 'No path found.';
 }
 
-// Initialize grid
+
 createGrid();
