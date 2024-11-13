@@ -5,7 +5,7 @@ body {
     align-items: center;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f9;
+    background-color: #25c0d1e4;
 }
 
 h1 {
@@ -26,26 +26,49 @@ h1 {
     width: 30px;
     height: 30px;
     background-color: #f4f4f9;
-    border: 1px solid #ddd;
+    border: 1px solid #25c0d1e4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Style for the grid container */
+.grid-container {
+    display: grid;
+    gap: 2px;
+}
+
+/* Default cell style */
+.cell {
+    width: 36px;
+    height: 36px;
+    background-color: white;
+    border: 1px solid #ccc;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+
 .start {
-    background-color: #4CAF50;
+    background-color: #0d7e0d; /* Bright green */
 }
 
 .end {
-    background-color: #F44336;
+    background-color: crimson;
 }
 
 .visited {
-    background-color: #FFEB3B;
+    background-color: #277fa8;
 }
 
 .path {
-    background-color: #2196F3;
+    background-color:rgba(0, 0, 255, 0.7)    ;
+}
+
+.wall {
+    background-color: #0a0909;
 }
 
 button {
