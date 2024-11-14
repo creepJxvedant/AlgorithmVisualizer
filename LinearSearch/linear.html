@@ -4,14 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Binary Search Visualizer</title>
-    <link rel="stylesheet" href="./Binary.css">
+    <link rel="stylesheet" href="./linear.css">
 </head>
 <body>
-    <h1>Binary Search Visualizer</h1>
+    <h1>Linear Search Visualizer</h1>
     
     <div id="array-container"></div>
     <p id="debug-array-text"></p>
     <div class="controls">
+        <label for="Size" style="color: rgb(113, 95, 95);">Size:</label>
+        <input type="number" id="Size" placeholder="Enter Size">
+
         <label for="target-val">Target Value:</label>
         <input type="number" id="target-val" placeholder="Enter target">
         
@@ -27,6 +30,6 @@
         <p id="debug-array-text"></p>
     </div>
     
-    <script src="binary.js"></script>
+    <script src="linear.js"></script>
 </body>
 </html>

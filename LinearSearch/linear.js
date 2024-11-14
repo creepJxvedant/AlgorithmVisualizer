@@ -1,29 +1,35 @@
 let array = [];
 let target = null;
+let current=0;
+let Size=0;
+
 const arrayContainer = document.getElementById("array-container");
 const debugText = document.getElementById("debug-text");
 const debugArrayText = document.getElementById("debug-array-text");
 
 let isSearching = false;
-let left = 0;
-let right = 0;
-let mid = 0;
-let isManualMode = false; // To track manual mode state
-let isFirst=true;
+let isManualMode = false;
 
 const targetInput = document.getElementById("target-val");
+const SizeInput = document.getElementById("Size");
 const nextStepButton = document.getElementById("next-step-button");
 const autoSearchButton = document.getElementById("auto-search-button");
 const manualSearchButton = document.getElementById("manual-search-button");
 
+function GetSize(){
+Size = parseInt(SizeInput.value);
+if (0 || target === "") {
+    updateDebugText("Please enter a valid target value.");
+    return;
+}
+generateArray();
+}
 
 function generateArray() {
-    const arraySize = 100;
     const minValue = 1;
-    const maxValue = 200;
+    const maxValue = 50;
 
-    array = Array.from({ length: arraySize }, () => Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue);
-    array.sort((a, b) => a - b); 
+    array = Array.from({ length: Size }, () => Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue);
 
     renderArray();
     resetIndices();
@@ -53,9 +59,7 @@ function updateDebugText(message) {
 }
 
 function resetIndices() {
-    left = 0;
-    right = array.length - 1;
-    mid = 0;
+    current=0;
 }
 
 async function startAutoSearch() {
@@ -75,37 +79,29 @@ async function startAutoSearch() {
     nextStepButton.disabled = true;
 
     const bars = document.getElementsByClassName("bar");
-
-    while (left <= right) {
-        
-     Array.from(bars)[left].style.backgroundColor="crimson";
-     Array.from(bars)[right].style.backgroundColor="crimson";
-
-        mid = Math.floor((left + right) / 2);
-        
-        await new Promise((resolve) => setTimeout(resolve, 200));
+while(isSearching){
+    if(current>Size-1){
+        break;
+    }     
+     await new Promise((resolve) => setTimeout(resolve, 200));
      
-     Array.from(bars)[mid].style.backgroundColor="blue";
-        updateDebugText(`Left: ${array[left]}, Mid: ${array[mid]}, Right: ${array[right]}`);
+     Array.from(bars)[current].style.backgroundColor="crimson";
+     
+      updateDebugText(`Target: ${target}, Current: ${array[current]}`);
 
-        if (array[mid] === target) {
+        if (array[current] === target) {
             Array.from(bars).forEach(bar => bar.style.backgroundColor = "green");   
-         Array.from(bars)[mid].style.backgroundColor="yellow";
-            updateDebugText(`Target found at index ${mid}!`);
+         Array.from(bars)[current].style.backgroundColor="blue";
+            updateDebugText(`Target found at index ${current}!`);
             break;
-        } else if (array[mid] < target) {
-            left = mid + 1;
-        } else {
-            right = mid - 1;
-        }
-
-        await new Promise((resolve) => setTimeout(resolve, 500));
-    }
-
-    if (left > right) {
+        } 
+        current++;
+        await new Promise((resolve) => setTimeout(resolve, 100));
+}
+        
+        if(array[current]!=target){
         updateDebugText("Target not found in the array.");
-    }
-
+        }
     isSearching = false;
     autoSearchButton.disabled = false;
     manualSearchButton.disabled = false;
@@ -133,41 +129,36 @@ async function startManualSearch() {
 
 function nextStep() {
     if (!isSearching || !isManualMode) return;
-
-    const bars = document.getElementsByClassName("bar");    
-    Array.from(bars)[left].style.backgroundColor="crimson";
-    Array.from(bars)[right].style.backgroundColor="crimson";
-
-    updateDebugText(`Left: ${array[left]},Right: ${array[right]}`);
-      
-    if(!isFirst){
-        calculateMid();
-    }
-    isFirst=!isFirst;
-}
-
-function calculateMid(){
     const bars = document.getElementsByClassName("bar");
-    mid = Math.floor((left + right) / 2);
-    Array.from(bars)[mid].style.backgroundColor="blue";
-    
-    if (array[mid] === target) {
-        Array.from(bars).forEach(bar => bar.style.backgroundColor = "green");
-    Array.from(bars)[mid].style.backgroundColor="yellow";
 
-        updateDebugText(`Target found at index ${mid}!`);
-        isSearching = false;
-        nextStepButton.disabled = true;
-        return;
-    } else if (array[mid] < target) {
-        left = mid + 1;
-    } else {
-        right = mid - 1;
+    if(current!=Size){
+    Array.from(bars)[current].style.backgroundColor = "crimson";
     }
-    
-    updateDebugText(`Left: ${array[left]},Mid: ${array[mid]},Right: ${array[right]}`);
-   
+    updateDebugText(`Target: ${target}, Current: ${array[current]}`);
+    if (array[current] === target || current>=Size) {
+    console.log(current);
+      
+        if(current!=Size){
+     Array.from(bars).forEach(bar => bar.style.backgroundColor = "green");   
+     Array.from(bars)[current].style.backgroundColor="blue";
+        updateDebugText(`Target found at index ${current}!`);
+        isSearching = false;
+        autoSearchButton.disabled = true;
+        manualSearchButton.disabled = true;
+    }
+    else{
+        updateDebugText(`Target Not Found! ${target}!`);
+        
+        isSearching = false;
+        autoSearchButton.disabled = false;
+        manualSearchButton.disabled = false;
+    } 
 }
+
+    current++;
+
+}
+
 
 
 
@@ -180,5 +171,4 @@ function resetArray() {
     manualSearchButton.disabled = false;
 }
 
-// Initial array generation
-generateArray();
+SizeInput.addEventListener("change", GetSize);

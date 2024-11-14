@@ -29,7 +29,6 @@ h1 {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Bar Styling for the Array */
 .bar {
     width: 20px;
     background-color: #fffefe;
@@ -38,13 +37,12 @@ h1 {
     border-radius: 3px;
 }
 
-/* Controls Styling */
 .controls {
     display: flex;
     align-items: center;
     margin-top: 20px;
     gap: 10px;
-    width: 60%; /* Adjust width of controls for better layout */
+    width: 60%;
 }
 
 .controls label {
@@ -59,8 +57,8 @@ h1 {
     font-size: 16px;
     border-radius: 5px;
     border: 1px solid #ccc;
-    width: 100%; /* Make inputs take up full width */
-    max-width: 250px; /* Limit max width */
+    width: 100%; 
+    max-width: 250px;
 }
 
 button {
@@ -72,9 +70,9 @@ button {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    width: 100%; /* Buttons take full width */
-    max-width: 250px; /* Limit max width */
-    margin-top: 10px; /* Space between buttons */
+    width: 100%; 
+    max-width: 250px;
+    margin-top: 10px;
 }
 
 button:hover {
@@ -86,7 +84,7 @@ button:disabled {
     cursor: not-allowed;
 }
 
-/* Debug Panel Styling */
+
 #debug-panel {
     width: 40%;
     margin-top: 20px;
@@ -99,7 +97,7 @@ button:disabled {
     text-align: left;
 }
 
-/* Debug Text Styling */
+
 #debug-text {
     font-size: 1.1em;
     color: #696464;
@@ -108,7 +106,7 @@ button:disabled {
 }
 #debug-array-text {
     font-size: 1.1em;
-    color: #696464;
+    color: #817a7a;
     font-family: 'Courier New', Courier, monospace;
     white-space: pre-wrap;
 }
