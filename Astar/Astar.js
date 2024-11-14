@@ -6,23 +6,18 @@ let endNode = null;
 let openSet = [];
 let closedSet = [];
 let path = [];
-let isMouseDown = false;
+let isAutomatic = false;
+let isMouseDown = false; // Track if mouse is pressed
 
 const gridContainer = document.getElementById("grid-container");
 const nextButton = document.getElementById("next-button");
 const startAutomaticButton = document.getElementById("start-automatic");
 const debugText = document.getElementById("debug-text");
 
-// Event Listeners for mouse dragging to add walls
-gridContainer.addEventListener('mousedown', () => isMouseDown = true);
-gridContainer.addEventListener('mouseup', () => isMouseDown = false);
-gridContainer.addEventListener('mouseleave', () => isMouseDown = false);
-
 function createGrid() {
     gridContainer.innerHTML = ''; // Clear previous grid
     grid = [];
     
-    // Set grid dimensions dynamically
     gridContainer.style.gridTemplateColumns = `repeat(${numCols}, 36px)`;
     gridContainer.style.gridTemplateRows = `repeat(${numRows}, 36px)`;
     
@@ -36,8 +31,9 @@ function createGrid() {
         }
         grid.push(gridRow);
     }
-    
+
     assignNeighbors();
+    addMouseEventListeners();
 }
 
 function createCell(row, col) {
@@ -49,6 +45,7 @@ function createCell(row, col) {
         isWall: false,
         f: Infinity,
         g: Infinity,
+        h: 0,
         previous: null,
         visited: false,
         neighbors: []
@@ -61,7 +58,6 @@ function createCellDiv(cell) {
     div.dataset.row = cell.row;
     div.dataset.col = cell.col;
     div.addEventListener('click', () => handleCellClick(div, cell));
-    div.addEventListener('mousemove', () => handleCellDrag(div, cell));
     return div;
 }
 
@@ -77,39 +73,48 @@ function assignNeighbors() {
     }
 }
 
+function addMouseEventListeners() {
+    gridContainer.addEventListener('mousedown', () => { 
+        isMouseDown = true; 
+    });
+    
+    gridContainer.addEventListener('mousemove', (event) => {
+        if (isMouseDown) {
+            const cell = getCellFromEvent(event);
+            if (cell && !cell.isStart && !cell.isEnd) {
+                cell.isWall = !cell.isWall; 
+                const div = document.querySelector(`[data-row="${cell.row}"][data-col="${cell.col}"]`);
+                div.classList.toggle('wall', cell.isWall);
+            }
+        }
+    });
+
+    gridContainer.addEventListener('mouseup', () => { 
+        isMouseDown = false; 
+    });
+}
+
+function getCellFromEvent(event) {
+    const row = parseInt(event.target.dataset.row);
+    const col = parseInt(event.target.dataset.col);
+    if (!isNaN(row) && !isNaN(col)) {
+        return grid[row][col];
+    }
+    return null;
+}
+
 function handleCellClick(div, cell) {
     if (!startNode) {
-        setStartNode(cell, div);
+        startNode = cell;
+        cell.isStart = true;
+        div.classList.add('start');
     } else if (!endNode) {
-        setEndNode(cell, div);
+        endNode = cell;
+        cell.isEnd = true;
+        div.classList.add('end');
     } else if (!cell.isStart && !cell.isEnd) {
-        toggleWall(cell, div);
-    }
-}
-
-function setStartNode(cell, div) {
-    startNode = cell;
-    cell.isStart = true;
-    start = cell;
-    div.classList.add('start');
-}
-
-function setEndNode(cell, div) {
-    endNode = cell;
-    end = cell;
-    cell.isEnd = true;
-    div.classList.add('end');
-}
-
-function toggleWall(cell, div) {
-    cell.isWall = !cell.isWall;
-    div.classList.toggle('wall', cell.isWall);
-}
-
-function handleCellDrag(div, cell) {
-    if (isMouseDown && !cell.isStart && !cell.isEnd && !cell.isWall) {
-        cell.isWall = true;
-        div.classList.add('wall');
+        cell.isWall = !cell.isWall; 
+        div.classList.toggle('wall', cell.isWall);
     }
 }
 
@@ -126,13 +131,13 @@ function resetState() {
     openSet = [];
     closedSet = [];
     path = [];
-    isMouseDown = false;
+    isAutomatic = false;
     nextButton.disabled = false;
     startAutomaticButton.disabled = false;
 }
 
 function heuristic(a, b) {
-    return Math.abs(a.row - b.row) + Math.abs(a.col - b.col);
+    return Math.abs(a.row - b.row) + Math.abs(a.col - b.col); // Manhattan distance
 }
 
 function startManual() {
@@ -166,26 +171,24 @@ function nextStep() {
     }
 
     updateNeighbors(current);
-    markAsVisited(current);
+    document.querySelector(`[data-row="${current.row}"][data-col="${current.col}"]`).classList.add('visited');
     debugText.innerText = `Visiting node at (${current.row}, ${current.col})`;
 }
 
 function updateNeighbors(current) {
     current.neighbors.forEach(neighbor => {
-        if (!neighbor.visited && !neighbor.isWall) { // Skip wall cells
+        if (!neighbor.visited && !neighbor.isWall) {
             const tempG = current.g + 1;
+            const h = heuristic(neighbor, endNode);
             if (tempG < neighbor.g) {
                 neighbor.previous = current;
                 neighbor.g = tempG;
-                neighbor.f = neighbor.g + heuristic(neighbor, endNode);
+                neighbor.h = h;
+                neighbor.f = neighbor.g + neighbor.h;
                 if (!openSet.includes(neighbor)) openSet.push(neighbor);
             }
         }
     });
-}
-
-function markAsVisited(current) {
-    document.querySelector(`[data-row="${current.row}"][data-col="${current.col}"]`).classList.add('visited');
 }
 
 function reconstructPath() {
@@ -194,10 +197,9 @@ function reconstructPath() {
         path.unshift(temp);
         temp = temp.previous;
     }
-    
-    path.forEach(node => document.querySelector(`[data-row="${node.row}"][data-col="${node.col}"]`).classList.add('path'));
+
     document.querySelector(`[data-row="${startNode.row}"][data-col="${startNode.col}"]`).classList.add('path');
-    
+    path.forEach(node => document.querySelector(`[data-row="${node.row}"][data-col="${node.col}"]`).classList.add('path'));
     debugText.innerText = 'Path found!';
     nextButton.disabled = true;
 }
@@ -227,7 +229,7 @@ async function startAutomatic() {
         }
 
         updateNeighbors(current);
-        markAsVisited(current);
+        document.querySelector(`[data-row="${current.row}"][data-col="${current.col}"]`).classList.add('visited');
         debugText.innerText = `Visiting node at (${current.row}, ${current.col})`;
 
         await new Promise(resolve => setTimeout(resolve, 80));
@@ -236,5 +238,4 @@ async function startAutomatic() {
     debugText.innerText = 'No path found.';
 }
 
-// Initialize the grid
 createGrid();
