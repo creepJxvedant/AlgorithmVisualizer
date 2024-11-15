@@ -91,24 +91,28 @@ button:disabled {
     cursor: not-allowed;
 }
 
+
 #debug-panel {
+    width: 40%;
     margin-top: 20px;
     padding: 15px;
-    background-color: #e0e0e0;
+    background-color: #2c2323;
     border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     font-size: 16px;
-    color: #333;
+    color: #4c4545;
+    text-align: left;
 }
 
 #debug-text {
-    font-size: 14px;
-    color: #333;
+    font-size: 1.1em;
+    color: #938989;
     font-family: 'Courier New', Courier, monospace;
     white-space: pre-wrap;
 }
 
 h2 {
-    color: #333;
+    color: #7d7676;
     font-size: 18px;
     text-transform: uppercase;
     letter-spacing: 1px;
