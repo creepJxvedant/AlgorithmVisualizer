@@ -1,4 +1,4 @@
-/* styles.css */
+/* General Body and Layout Styles */
 body {
     font-family: Arial, sans-serif;
     background-color: #000000;
@@ -15,6 +15,7 @@ h1 {
     font-size: 2em;
 }
 
+/* Array Container Styling */
 #array-container {
     display: flex;
     align-items: flex-end;
@@ -24,25 +25,42 @@ h1 {
     margin: 20px auto;
     background-color: #000000;
     padding: 10px;
-    
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Bar Styling for the Array */
 .bar {
     width: 20px;
-    background-color: #1b8a1f;
+    background-color: #fffefe;
     margin: 2px;
     transition: all 0.4s ease;
     border-radius: 3px;
 }
 
+/* Controls Styling */
 .controls {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    align-items: center;
     margin-top: 20px;
-    gap: 15px;
+    gap: 10px;
+    width: 60%; /* Adjust width of controls for better layout */
+}
+
+.controls label {
+    font-size: 16px;
+    margin-right: 10px;
+    color: #fff;
+}
+
+.controls input {
+    padding: 8px;
+    margin: 5px 0;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 100%; /* Make inputs take up full width */
+    max-width: 250px; /* Limit max width */
 }
 
 button {
@@ -54,6 +72,9 @@ button {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    width: 100%; /* Buttons take full width */
+    max-width: 250px; /* Limit max width */
+    margin-top: 10px; /* Space between buttons */
 }
 
 button:hover {
@@ -65,18 +86,7 @@ button:disabled {
     cursor: not-allowed;
 }
 
-#sidebar {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    background-color: #e0e0e0;
-    border-radius: 5px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    margin: 10px;
-    width: 220px;
-}
-
+/* Debug Panel Styling */
 #debug-panel {
     width: 40%;
     margin-top: 20px;
@@ -89,13 +99,19 @@ button:disabled {
     text-align: left;
 }
 
+/* Debug Text Styling */
 #debug-text {
     font-size: 1.1em;
     color: #696464;
     font-family: 'Courier New', Courier, monospace;
     white-space: pre-wrap;
 }
-
+#debug-array-text {
+    font-size: 1.1em;
+    color: #978888;
+    font-family: 'Courier New', Courier, monospace;
+    white-space: pre-wrap;
+}
 h2 {
     color: #bc1b1b;
     font-size: 18px;
@@ -106,11 +122,13 @@ h2 {
     margin-bottom: 10px;
 }
 
+/* Range Slider Styling (if used) */
 input[type="range"] {
     width: 100%;
     margin-top: 10px;
 }
 
+/* Value Display Styling */
 #bar-width-value, #speed-value {
     font-weight: bold;
     color: #007BFF;

@@ -1,7 +1,7 @@
 /* styles.css */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
+    background-color: #000000;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -11,8 +11,8 @@ body {
 
 h1 {
     margin: 20px 0;
-    color: #333;
-    font-size: 24px;
+    color: #3f3c3c;
+    font-size: 2em;
 }
 
 #array-container {
@@ -22,16 +22,16 @@ h1 {
     height: 300px;
     width: 70%;
     margin: 20px auto;
-    background-color: #fff;
+    background-color: #000000;
     padding: 10px;
-    border: 1px solid #ddd;
+    
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .bar {
     width: 20px;
-    background-color: #4CAF50;
+    background-color: #1b8a1f;
     margin: 2px;
     transition: all 0.4s ease;
     border-radius: 3px;
@@ -81,23 +81,23 @@ button:disabled {
     width: 40%;
     margin-top: 20px;
     padding: 15px;
-    background-color: #e0e0e0;
+    background-color: #271f1f;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     font-size: 16px;
-    color: #333;
+    color: #4c4545;
     text-align: left;
 }
 
 #debug-text {
-    font-size: 14px;
-    color: #333;
+    font-size: 1.1em;
+    color: #696464;
     font-family: 'Courier New', Courier, monospace;
     white-space: pre-wrap;
 }
 
 h2 {
-    color: #333;
+    color: #bc1b1b;
     font-size: 18px;
     text-transform: uppercase;
     letter-spacing: 1px;

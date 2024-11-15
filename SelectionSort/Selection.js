@@ -5,8 +5,7 @@ const stepButton = document.getElementById("step-button");
 
 let isSorting = false;
 let isManual = false;
-let i = 0;
-let minIndex = 0;
+let i = 0, j = 0, minIndex = 0;
 
 function generateArray() {
     array = Array.from({ length: 20 }, () => Math.floor(Math.random() * 200) + 10);
@@ -31,108 +30,174 @@ function updateDebugText(message) {
 
 function resetIndices() {
     i = 0;
+    j = 0;
     minIndex = 0;
 }
 
-function delay(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-async function automaticSort() {
-    isSorting = true;
-    isManual = false;
-    stepButton.disabled = true; 
-    const bars = document.getElementsByClassName("bar");
-
-    for (i = 0; i < array.length - 1; i++) {
-        minIndex = i;
-        bars[minIndex].style.backgroundColor = "blue"; 
-        updateDebugText(`Finding the minimum element starting from index ${i}`);
-        await delay(300);  // Delay to make the color change smooth
-
-        for (let j = i + 1; j < array.length; j++) {
-            if (!isSorting) return; 
-
-            bars[j].style.backgroundColor = "red";
-            await delay(200);  // Smoother transition between comparisons
-
-            if (array[j] < array[minIndex]) {
-                bars[minIndex].style.backgroundColor = "#4CAF50"; 
-                minIndex = j;
-                bars[minIndex].style.backgroundColor = "blue"; 
-                updateDebugText(`New minimum found at index ${minIndex}`);
-            } else {
-                bars[j].style.backgroundColor = "#4CAF50"; 
-            }
-            await delay(200);  // Delay to visualize each comparison
-        }
-
-        if (minIndex !== i) {
-            [array[i], array[minIndex]] = [array[minIndex], array[i]];
-            renderArray();
-            await delay(300);  // Delay to see the swap happen
-            updateDebugText(`Swapped element at index ${i} with minimum at index ${minIndex}`);
-        }
-
-        bars[i].style.backgroundColor = "#4CAF50";
-        await delay(200);  // Smooth marking as sorted
-    }
-
-    updateDebugText("Array is fully sorted!");
-    isSorting = false;
-}
-
 async function manualSortStep() {
+    if (isSorting) return; // Prevents running if automatic sorting is active
+
+    // Disable the "Next Step" button to prevent rapid clicking
+    stepButton.disabled = true;
+
     const bars = document.getElementsByClassName("bar");
+
+    // Reset all bars to default state (green) at the beginning of each step
     Array.from(bars).forEach(bar => bar.style.backgroundColor = "#4CAF50");
 
     if (i >= array.length - 1) {
+        // If sorting is complete, change the bars to green after sorting is done
         updateDebugText("Array is fully sorted!");
-        stepButton.disabled = true;
+        isSorting = false;
+        stepButton.disabled = true; // Disable the Step button after sorting is complete
+
+        // Final pass to change all bars to green to indicate sorted array
+        Array.from(bars).forEach(bar => bar.style.backgroundColor = "green");
+
+        // Re-enable the step button after the last step
+        stepButton.disabled = false;
         return;
     }
 
-    minIndex = i;
-    bars[minIndex].style.backgroundColor = "blue"; 
-    updateDebugText(`Finding the minimum element starting from index ${i}`);
-    await delay(300);  // Smooth the initial color change
+    // Highlight the current element at index 'i' and the candidate element at index 'j' as blue
+    bars[i].style.backgroundColor = "blue"; // Highlight the element at index 'i'
+    bars[minIndex].style.backgroundColor = "blue"; // Highlight the element at minIndex in blue
 
-    let j = i + 1;
-    for (j; j < array.length; j++) {
-        if (!isManual) return;
+    // Highlight the candidate element at index 'j' with crimson for comparison
+    bars[j].style.backgroundColor = "crimson"; // Highlight the element at index 'j' (candidate for min)
 
-        bars[j].style.backgroundColor = "red"; 
-        await delay(200);  // Delay to visualize comparisons
-
-        if (array[j] < array[minIndex]) {
-            bars[minIndex].style.backgroundColor = "#4CAF50"; 
-            minIndex = j;
-            bars[minIndex].style.backgroundColor = "blue";
-            updateDebugText(`New minimum found at index ${minIndex}`);
-        } else {
-            bars[j].style.backgroundColor = "#4CAF50"; 
+    // If we find a smaller value, update the minIndex
+    if (array[j] < array[minIndex]) {
+        // Reset the previous minIndex (if it was not i) and update minIndex to j
+        if (minIndex !== i) {
+            bars[minIndex].style.backgroundColor = "#4CAF50"; // Reset the previous minIndex element to green
         }
-        await delay(200);  // Delay to visualize each comparison
+        minIndex = j; // Update the minIndex to the new smallest element
     }
 
-    if (minIndex !== i) {
+    await new Promise(resolve => setTimeout(resolve, 300)); // Delay for smoothness
 
-        bars[j].style.backgroundColor = "blue"; 
-        [array[i], array[minIndex]] = [array[minIndex], array[i]]; 
-       
-        await delay(300);  // Smooth the swap animation
-        updateDebugText(`Swapped element at index ${i} with minimum at index ${minIndex}`);
+    j++; // Increment j to move to the next candidate for comparison
+
+    // Once the inner loop finishes (when j >= array.length), we perform the swap
+    if (j >= array.length) {
+        // Only perform the swap once the entire inner loop is done
+        if (minIndex !== i) {
+            // Highlight the swap (swap elements at i and minIndex)
+            bars[minIndex].style.backgroundColor = "blue"; // Element to swap
+            bars[i].style.backgroundColor = "blue"; // Element at index i to swap with
+
+            await new Promise(resolve => setTimeout(resolve, 300)); // Delay before swapping
+
+            // Swap the elements in the array and update their heights
+            [array[i], array[minIndex]] = [array[minIndex], array[i]];
+            bars[i].style.height = `${array[i]}px`;
+            bars[minIndex].style.height = `${array[minIndex]}px`;
+
+            updateDebugText(`Swapped elements at index ${i} and ${minIndex}`);
+        }
+
+        // After completing the pass, move to the next index
+        minIndex = i + 1;
+        i++;
+        j = i + 1; // Start the inner loop from the next index
     }
 
-    bars[i].style.backgroundColor = "#4CAF50"; // Mark as sorted
-    i++;
+    await new Promise(resolve => setTimeout(resolve, 300)); // Delay to allow visualization
+
+    // After completing the inner loop, reset the candidate element `j` back to green, but leave `i` and `minIndex` blue
+    if (j < array.length) {
+        bars[j].style.backgroundColor = "#4CAF50"; // Reset the candidate element to green
+    }
+
+    // Re-enable the step button after the step is completed
+    stepButton.disabled = false;
 }
 
+
+
+
+async function automaticSort() {
+    // Reset the bars' colors before starting automatic sorting
+    resetBars(); 
+
+    isSorting = true;
+    const bars = document.getElementsByClassName("bar");
+
+    for (let i = 0; i < array.length - 1; i++) {
+        let minIndex = i;
+        for (let j = i + 1; j < array.length; j++) {
+            if (!isSorting) return; // Stop if sorting is disabled
+
+            // Highlight the current elements being compared (red)
+            bars[minIndex].style.backgroundColor = "blue";
+            bars[j].style.backgroundColor = "crimson";
+
+            // Wait for a smooth transition
+            await new Promise(resolve => setTimeout(resolve, 300));
+
+            if (array[j] < array[minIndex]) {
+                // Reset the previous minimum element to green
+                if (minIndex !== i) {
+                    bars[minIndex].style.backgroundColor = "#4CAF50";
+                }
+
+                // Update minIndex to the new smallest element
+                minIndex = j;
+            }
+
+            // Wait for smooth transition after comparison
+            await new Promise(resolve => setTimeout(resolve, 300));
+
+            // Reset the compared elements back to green
+            bars[minIndex].style.backgroundColor = "#4CAF50";
+            bars[j].style.backgroundColor = "#4CAF50";
+        }
+
+        // Swap the elements if necessary
+        if (minIndex !== i) {
+            // Highlight the two elements that will be swapped (blue)
+            bars[minIndex].style.backgroundColor = "blue";
+            bars[i].style.backgroundColor = "blue";
+
+            // Wait for the smooth transition before swapping
+            await new Promise(resolve => setTimeout(resolve, 300));
+
+            // Perform the swap
+            [array[i], array[minIndex]] = [array[minIndex], array[i]];
+            bars[i].style.height = `${array[i]}px`;
+            bars[minIndex].style.height = `${array[minIndex]}px`;
+
+            updateDebugText(`Swapped elements at index ${i} and ${minIndex}`);
+        }
+
+        // Reset the swapped elements back to green
+        bars[i].style.backgroundColor = "#4CAF50";
+        bars[minIndex].style.backgroundColor = "#4CAF50";
+    }
+
+    // Once sorting is complete, update all bars to green to indicate sorting is done
+    updateDebugText("Array is fully sorted!");
+    Array.from(bars).forEach(bar => bar.style.backgroundColor = "green");
+
+    isSorting = false;
+}
+
+// Reset bars to green when switching sorting methods (manual -> automatic)
+function resetBars() {
+    const bars = document.getElementsByClassName("bar");
+    Array.from(bars).forEach(bar => {
+        bar.style.backgroundColor = "#4CAF50"; // Reset all bars to green
+    });
+}
+
+
 function setManualMode() {
-    if (isSorting) isSorting = false; 
     isManual = true;
+    isSorting = false; // Stop automatic sorting
     stepButton.disabled = false;
-    updateDebugText("Manual mode activated. Use 'Next Step' to proceed.");
+    resetIndices();
+    updateDebugText("Manual mode activated. Use 'Step' to go forward.");
 }
 
 function stepSort() {
@@ -143,8 +208,9 @@ function stepSort() {
 
 function startAutomaticSort() {
     if (!isSorting) {
-        isManual = false; 
+        isManual = false;
         stepButton.disabled = true;
+        isSorting = true;
         automaticSort();
     }
 }
