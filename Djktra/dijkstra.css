@@ -28,38 +28,40 @@ h1 {
     gap: 2px;
 }
 
-/* Default cell style */
 .cell {
-    cursor: pointer;
     width: 18px;
     height: 18px;
-    background-color: white;
-    border: 1px solid #ccc;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-
-.start {
-    background-color: #0d7e0d; /* Bright green */
-}
-
-.end {
-    background-color: crimson;
+    border: 1px solid #ddd;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .visited {
-    background-color: #277fa8;
+    background-color: rgba(5, 255, 0, 0.7);
 }
 
 .path {
-    background-color:rgba(0, 0, 255, 0.7)  ;
+    background-color: rgba(0, 0, 255, 0.7); 
 }
 
 .wall {
-    background-color: #0a0909;
+    background-color: black;
 }
+
+.start {
+    background-color: green;
+}
+
+.end {
+    background-color: red;
+}
+
+.path-follow {
+    background-color: rgba(255, 255, 0, 0.7); /* Flow effect for following */
+    transform: scale(1.1);
+}
+
+
+
 
 button {
     padding: 10px 20px;

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSA Encryption and Decryption</title>
+    <link rel="stylesheet" href="rsa.css">
+</head>
+<body>
+    <div id="app">
+        <h1>RSA Encryption and Decryption</h1>
+        <div id="controls">
+            <button id="generate-keys">Generate Keys</button>
+        </div>
+        <div id="keys">
+            <p><strong>Public Key:</strong> <span id="public-key"></span></p>
+            <p><strong>Private Key:</strong> <span id="private-key"></span></p>
+        </div>
+        <div id="operations">
+            <h2>Encrypt</h2>
+            <textarea id="message" placeholder="Enter a message to encrypt"></textarea>
+            <button id="encrypt-btn">Encrypt</button>
+            <p><strong>Encrypted Message:</strong> <span id="encrypted-message"></span></p>
+            <h2>Decrypt</h2>
+            <button id="decrypt-btn">Decrypt</button>
+            <p><strong>Decrypted Message:</strong> <span id="decrypted-message"></span></p>
+        </div>
+    </div>
+    <script src="rsa.js"></script>
+</body>
+</html>
