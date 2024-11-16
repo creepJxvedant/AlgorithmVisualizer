@@ -1,0 +1,190 @@
+@font-face {
+  font-family:Customfamily;
+  src: url("./assets/Orbitron-Medium.ttf");
+}
+
+.local_large_navbar{
+  font-weight: 600;
+  font-size:20px;
+  display: flex;
+  }
+
+  .local_large_navbar:hover{
+    color:crimson !important;
+    }
+
+    .local-top-logo{
+    font-family: Customfamily,sans-serif;
+    font-size:1.2em; 
+    font-weight: 500;
+    color: crimson;
+    }
+
+
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    text-align: center;
+    margin: 0;
+    padding: 0px;
+}
+
+
+  .custom-icon {
+    width: 200pt;
+    height: 30pt;
+    fill: none;
+    stroke: #000000; 
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    animation: carve 8s linear forwards;
+}
+
+
+@keyframes carve {
+    0%{
+      filter: blur(10px);
+        stroke-dasharray:10; 
+    }
+    20%{
+      filter: blur(0);
+    }
+    
+    100%{
+        fill: #000000;
+        stroke-dasharray:350;
+    }
+}
+
+h1 {
+    color: #333;
+}
+
+
+.Middle .card-container{
+  display: grid;
+  place-content: center;
+  position: relative;
+  min-height:40vh;
+  width:80%;
+  display: grid;
+  color: blue;
+}
+
+
+.card-container{
+  background-color: #000000;
+  padding-top:50px;
+  display: grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,300px));
+  grid-auto-rows:300px;
+  gap:40px;
+}
+
+.card {
+  background-color: #000000;
+  border-radius: 30px;
+  box-shadow: 
+    10px 10px 10px rgb(25, 25, 25),
+    -2px -5px 10px rgb(60, 60, 60);
+  position: relative;
+  overflow: hidden;
+  background-size: cover; /* Ensure image fully covers the background */
+  background-position: center; /* Center the background image */
+  background-repeat: no-repeat; /* Prevent image repetition */
+  transition: 0.4s ease scale;
+  padding: 0; /* Removed padding to eliminate extra space */
+  margin: 0; /* Removed any margin */
+  display: flex; /* Flex to control card content layout */
+  align-items: center; /* Vertically center content */
+  justify-content: center; /* Horizontally center content */
+}
+
+
+.background-image {
+  background-color: #000000;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color:transparent;
+  background-size: contain; /* Ensures the image is fully contained within the div */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+  transition: background-image 0.3s ease-in-out;
+}
+
+
+.card:hover {
+    scale:1.05;
+}
+
+
+h3 {
+    font-size: 20px;
+    margin: 0;
+} 
+
+.Middle{
+  min-height:100vh;
+  display: grid;
+  place-items: center;
+}
+/* .Middle .card-container::before{
+  content: "SEARCHING";
+  width:100%;
+  text-align: center;
+  font-size:2em;
+  font-weight:700;
+  top:0;
+  z-index:2;
+  height:40px;
+  position: absolute;
+} */
+.Middle h1{
+  color: blue;
+  font-size:2.5em;
+  font-weight: 700;
+  width:40%;
+  height:60px;
+ margin-bottom:10%;
+ padding:10px;
+ text-align: center;
+ border-radius:20px;
+}
+
+.footer{
+  width:100vw;
+  min-height:10vh;
+}
+
+.wrapper{
+  overflow: hidden;
+}
+.local_footer_text{
+  font-size:25px;
+  font-weight: 500;
+  font-family: Verdana;
+}
+
+.local_footer_logos{
+  font-size:30px;
+  width:24px;
+  height:24px;
+  color:aliceblue;
+  fill: aliceblue;
+}
+.local_footer_logos:hover{
+  color: rgb(110,168,254);
+  fill:rgb(110,168,254);
+}
+.local_footer_tag_text{
+  color: aliceblue;
+  font-size:20px;
+}
+
+.footer_border_box{
+  min-height:40vh;
+  box-shadow:blue 10px 0px 50px 8px ;
+}

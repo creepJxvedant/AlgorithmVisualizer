@@ -2,13 +2,23 @@ let array = [];
 const arrayContainer = document.getElementById("array-container");
 const debugText = document.getElementById("debug-text");
 const stepButton = document.getElementById("step-button");
-
+let Size=0;
 let isSorting = false;
 let isManual = false;
 let i = 0, j = 0;
+const SizeInput= document.getElementById("Size");
+
+function GetSize(){
+    Size = parseInt(SizeInput.value);
+    if (0 || Size === "") {
+        updateDebugText("Please enter a valid size value.");
+        return;
+    }
+    generateArray();
+    }
 
 function generateArray() {
-    array = Array.from({ length: 20 }, () => Math.floor(Math.random() * 200) + 10);
+    array = Array.from({ length: Size }, () => Math.floor(Math.random() * 200) + 10);
     renderArray();
     resetIndices();
     updateDebugText("New array generated. Choose 'Automatic' or 'Manual' to start sorting.");
@@ -34,10 +44,17 @@ function resetIndices() {
 }
 
 async function manualSortStep() {
-    if (isSorting) return; // Prevents running if automatic sorting is active
-
     const bars = document.getElementsByClassName("bar");
-    Array.from(bars).forEach(bar => bar.style.backgroundColor = "#4CAF50");
+    Array.from(bars).forEach(bar => bar.style.backgroundColor = "#1b8a1f");
+
+    IsSortedChecker();
+
+    if (isSorting) return; 
+
+    if(j>0){
+    bars[j-1].style.backgroundColor = "#1b8a1f";
+    bars[j].style.backgroundColor = "#1b8a1f";
+    }
 
     if (i >= array.length - 1) {
         updateDebugText("Array is fully sorted!");
@@ -47,8 +64,8 @@ async function manualSortStep() {
         return;
     }
 
-    bars[j].style.backgroundColor = "red";
-    bars[j + 1].style.backgroundColor = "red";
+    bars[j].style.backgroundColor =  "#8a0a0a";
+    bars[j + 1].style.backgroundColor =  "#8a0a0a";
 
     if (array[j] > array[j + 1]) {
         bars[j].style.backgroundColor = "blue";
@@ -63,17 +80,14 @@ async function manualSortStep() {
         updateDebugText(`Swapped elements at index ${j} and ${j + 1}`);
     } else {
         updateDebugText(`No swap needed for index ${j} and ${j + 1}`);
+
     }
-
-    await new Promise((resolve) => setTimeout(resolve, 200));
-
-    bars[j].style.backgroundColor = "#4CAF50";
-    bars[j + 1].style.backgroundColor = "#4CAF50";
     j++;
     if (j >= array.length - i - 1) {  
         j = 0;
         i++;
     }
+    stepButton.disabled=false;
 }
 
 async function automaticSort() {
@@ -81,11 +95,12 @@ async function automaticSort() {
     const bars = document.getElementsByClassName("bar");
 
     for (let i = 0; i < array.length - 1; i++) {
+         IsSortedChecker();
         for (let j = 0; j < array.length - i - 1; j++) {
             if (!isSorting || isManual) return;
 
-            bars[j].style.backgroundColor = "red";
-            bars[j + 1].style.backgroundColor = "red";
+            bars[j].style.backgroundColor = "#8a0a0a"
+          bars[j + 1].style.backgroundColor = "#8a0a0a"
 
             await new Promise((resolve) => setTimeout(resolve, 200));
 
@@ -93,7 +108,6 @@ async function automaticSort() {
                 bars[j].style.backgroundColor = "blue";
                 bars[j + 1].style.backgroundColor = "blue";
 
-                await new Promise((resolve) => setTimeout(resolve, 300));
                 
                 [array[j], array[j + 1]] = [array[j + 1], array[j]];
                 bars[j].style.height = `${array[j]}px`;
@@ -106,27 +120,38 @@ async function automaticSort() {
 
             await new Promise((resolve) => setTimeout(resolve, 300));
 
-            bars[j].style.backgroundColor = "#4CAF50";
-            bars[j + 1].style.backgroundColor = "#4CAF50";
+            bars[j].style.backgroundColor = "#1b8a1f";
+            bars[j + 1].style.backgroundColor = "#1b8a1f";
         }
     }
+}
 
+
+function IsSortedChecker(){
+
+    for(let k=1;k<array.length;k++){
+       if(array[k] < array[k-1]){
+         return;
+       }
+    }
+    isSorting=false;
     updateDebugText("Array is fully sorted!");
     Array.from(bars).forEach(bar => bar.style.backgroundColor = "green");
-    isSorting = false;
 }
+
 
 function setManualMode() {
     isManual = true;
-    isSorting = false; // Stop automatic sorting
+    isSorting = false; 
     stepButton.disabled = false;
     resetIndices();
     updateDebugText("Manual mode activated. Use 'Step' to go forward.");
 }
 
-function stepSort() {
+async function stepSort() {
     if (isManual) {
-        manualSortStep();
+        stepButton.disabled=true;
+        await new Promise((resolve) => setTimeout( manualSortStep(), 300));
     }
 }
 
@@ -145,5 +170,4 @@ function resetArray() {
     generateArray();
 }
 
-// Initial array generation
-generateArray();
+SizeInput.addEventListener('change', GetSize);

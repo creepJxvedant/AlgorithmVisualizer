@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binary Search Visualizer</title>
+    <link rel="stylesheet" href="./Binary.css">
+</head>
+<body>
+    <h1>Binary Search Visualizer</h1>
+    
+    <div id="array-container"></div>
+    <p id="debug-array-text"></p>
+    <div class="controls">
+        <label for="target-val">Target Value:</label>
+        <input type="number" id="target-val" placeholder="Enter target">
+        
+        <button onclick="startAutoSearch()" id="auto-search-button">Auto Search</button>
+        <button onclick="startManualSearch()" id="manual-search-button">Manual Search</button>
+        <button id="next-step-button" onclick="nextStep()" disabled>Next Step</button>
+        <button onclick="resetArray()">Reset</button>
+    </div>
+    
+    <div id="debug-panel">
+        <h2>Debug Info</h2>
+        <p id="debug-text">Press "Start Binary Search" to begin searching...</p>
+        <p id="debug-array-text"></p>
+    </div>
+    
+    <script src="binary.js"></script>
+</body>
+</html>
