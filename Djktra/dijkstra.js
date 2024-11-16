@@ -191,22 +191,57 @@ function updateNeighbors(current) {
 }
 
 function markAsVisited(current) {
-    document.querySelector(`[data-row="${current.row}"][data-col="${current.col}"]`).classList.add('visited');
+    const cellDiv = document.querySelector(`[data-row="${current.row}"][data-col="${current.col}"]`);
+    cellDiv.classList.add('visited');
+    animateFollowingNodes(current);
+}
+
+function animateFollowingNodes(current) {
+    const cellDiv = document.querySelector(`[data-row="${current.row}"][data-col="${current.col}"]`);
+    
+    // Apply the color animation to show it following its neighbors
+    cellDiv.style.transition = "background-color 0.4s ease, transform 0.4s ease";
+    cellDiv.style.backgroundColor = 'rgba(255, 255, 0, 0.7)'; // Yellow flow color
+    cellDiv.style.transform = "scale(1.1)"; // Slight enlargement for animation effect
+    
+    setTimeout(() => {
+        cellDiv.style.transform = "scale(1)";
+    }, 400);
 }
 
 function reconstructPath() {
     let temp = endNode;
+    const delay = 100; // Delay for path animation
+
+    // Animation for path reconstruction (highlight one by one)
     while (temp.previous) {
         path.unshift(temp);
         temp = temp.previous;
     }
     
-    path.forEach(node => document.querySelector(`[data-row="${node.row}"][data-col="${node.col}"]`).classList.add('path'));
-    document.querySelector(`[data-row="${startNode.row}"][data-col="${startNode.col}"]`).classList.add('path');
+    path.forEach((node, index) => {
+        setTimeout(() => {
+            const nodeDiv = document.querySelector(`[data-row="${node.row}"][data-col="${node.col}"]`);
+            // Color the node as part of the path
+            nodeDiv.classList.add('path');
+            nodeDiv.style.transition = "background-color 0.3s ease, transform 0.3s ease";
+            nodeDiv.style.backgroundColor = 'rgba(0, 0, 255, 0.7)'; // Path color
+            nodeDiv.style.transform = "scale(1.2)"; // Slight scaling animation for visual effect
+            setTimeout(() => {
+                nodeDiv.style.transform = "scale(1)";
+            }, 300);
+        }, index * delay);
+    });
+
+    // Ensure start node is included in the path with color
+    const startDiv = document.querySelector(`[data-row="${startNode.row}"][data-col="${startNode.col}"]`);
+    startDiv.classList.add('path');
+    startDiv.style.backgroundColor = 'rgba(0, 0, 255, 0.7)'; // Path color for start node
     
     debugText.innerText = 'Path found!';
     nextButton.disabled = true;
 }
+
 
 // Automatic mode logic
 async function startAutomatic() {
@@ -242,6 +277,30 @@ async function startAutomatic() {
 
     debugText.innerText = 'No path found.';
 }
+
+function generateMaze() {
+    resetState(); // Clear existing state to prevent conflicts
+    for (let row = 0; row < numRows; row++) {
+        for (let col = 0; col < numCols; col++) {
+            const cell = grid[row][col];
+            const cellDiv = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
+            
+            // Skip start and end nodes to avoid overwriting them
+            if (cell.isStart || cell.isEnd) continue;
+
+            // Randomly decide if this cell should be a wall
+            if (Math.random() < 0.3) { // Adjust probability (0.3 for ~30% walls)
+                cell.isWall = true;
+                cellDiv.classList.add('wall');
+            } else {
+                cell.isWall = false;
+                cellDiv.classList.remove('wall');
+            }
+        }
+    }
+    debugText.innerText = 'Random maze generated!';
+}
+
 
 // Initialize the grid
 createGrid();

@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dijkstra's Algorithm - Manual & Automatic Mode</title>
-    <link rel="stylesheet" href="dijkstra.css">
+    <title>DFS Algorithm</title>
+    <link rel="stylesheet" href="dfs.css">
 </head>
 <body>
-    <h1>Dijkstra's Algorithm - Manual & Automatic Mode</h1>
+    <h1>DFS Algorithm - Manual & Automatic Mode</h1>
 
     <div id="grid-container"></div>
-    
+
     <div class="controls">
         <button onclick="startManual()" id="start-manual">Start Manual</button>
-        <button onclick="startAutomatic()" id="start-automatic" >Start Automatic</button>
+        <button onclick="startAutomatic()" id="start-automatic">Start Automatic</button>
         <button onclick="nextStep()" id="next-button" disabled>Next Step</button>
         <button onclick="resetGrid()">Reset</button>
-        <button onclick="generateMaze()">Generate Maze</button>
+        <button onclick="generateMaze()">Generate Maze</button> 
     </div>
 
     <div id="debug-panel">
@@ -24,6 +24,6 @@
         <p id="debug-text">Click "Start Manual" to begin.</p>
     </div>
 
-    <script src="dijkstra.js"></script>
+    <script src="dfs.js"></script>
 </body>
 </html>

@@ -3,11 +3,12 @@ const numCols = 50;
 let grid = [];
 let startNode = null;
 let endNode = null;
-let openSet = [];
-let closedSet = [];
-let path = [];
+let stack = [];
+let visitedNodes = [];
+let path = []; // To track the path
+let isMouseDown = false;
 let isAutomatic = false;
-let isMouseDown = false; // Track if mouse is pressed
+let isRunning = false; // To track if the algorithm is running
 
 const gridContainer = document.getElementById("grid-container");
 const nextButton = document.getElementById("next-button");
@@ -20,12 +21,10 @@ gridContainer.addEventListener('mouseleave', () => isMouseDown = false);
 
 
 function createGrid() {
-    gridContainer.innerHTML = ''; // Clear previous grid
+    gridContainer.innerHTML = '';
     grid = [];
-    
     gridContainer.style.gridTemplateColumns = `repeat(${numCols}, 18px)`;
     gridContainer.style.gridTemplateRows = `repeat(${numRows}, 18px)`;
-    
     for (let row = 0; row < numRows; row++) {
         let gridRow = [];
         for (let col = 0; col < numCols; col++) {
@@ -36,7 +35,6 @@ function createGrid() {
         }
         grid.push(gridRow);
     }
-
     assignNeighbors();
 }
 
@@ -47,11 +45,8 @@ function createCell(row, col) {
         isStart: false,
         isEnd: false,
         isWall: false,
-        f: Infinity,
-        g: Infinity,
-        h: 0,
-        previous: null,
         visited: false,
+        previous: null, // To track path
         neighbors: []
     };
 }
@@ -63,7 +58,7 @@ function createCellDiv(cell) {
     div.dataset.col = cell.col;
     div.addEventListener('click', () => handleCellClick(div, cell));
     div.addEventListener('mousemove', () => handleCellDrag(div, cell));
-    return div;
+      return div;
 }
 
 function assignNeighbors() {
@@ -88,34 +83,25 @@ function handleCellClick(div, cell) {
     }
 }
 
-// Set the start node
 function setStartNode(cell, div) {
     startNode = cell;
     cell.isStart = true;
     div.classList.add('start');
 }
 
+// Set the end node
 function setEndNode(cell, div) {
     endNode = cell;
     cell.isEnd = true;
     div.classList.add('end');
 }
 
-// Toggle the wall state of a cell
 function toggleWall(cell, div) {
     cell.isWall = !cell.isWall;
     div.classList.toggle('wall', cell.isWall);
 }
 
-function getCellFromEvent(event) {
-    const row = parseInt(event.target.dataset.row);
-    const col = parseInt(event.target.dataset.col);
-    if (!isNaN(row) && !isNaN(col)) {
-        return grid[row][col];
-    }
-    return null;
-}
-
+// Handle cell drag event (to create walls)
 function handleCellDrag(div, cell) {
     if (isMouseDown && !cell.isStart && !cell.isEnd && !cell.isWall) {
         cell.isWall = true;
@@ -133,27 +119,24 @@ function resetGrid() {
 function resetState() {
     startNode = null;
     endNode = null;
-    openSet = [];
-    closedSet = [];
+    stack = [];
+    visitedNodes = [];
     path = [];
     isAutomatic = false;
+    isRunning = false; // Reset running flag
     nextButton.disabled = false;
     startAutomaticButton.disabled = false;
 }
 
-function heuristic(a, b) {
-    return Math.abs(a.row - b.row) + Math.abs(a.col - b.col); // Manhattan distance
-}
-
-function startManual() {
+async function startManual() {
     if (!startNode || !endNode) {
         alert('Please select both start and end nodes.');
         return;
     }
 
-    openSet = [startNode];
-    startNode.g = 0;
-    startNode.f = heuristic(startNode, endNode);
+    stack.push(startNode);
+    startNode.visited = true;
+    isRunning = true; // Mark as running
 
     nextButton.disabled = false;
     startAutomaticButton.disabled = true;
@@ -161,41 +144,33 @@ function startManual() {
 }
 
 function nextStep() {
-    if (openSet.length === 0) {
+    if (stack.length === 0) {
         debugText.innerText = 'No path found.';
         return;
     }
 
-    openSet.sort((a, b) => a.f - b.f);
-    const current = openSet.shift();
-    current.visited = true;
+    const current = stack.pop();
+    visitedNodes.push(current);
+    document.querySelector(`[data-row="${current.row}"][data-col="${current.col}"]`).classList.add('visited');
 
     if (current === endNode) {
         reconstructPath();
         return;
     }
 
-    updateNeighbors(current);
+    current.neighbors.forEach(neighbor => {
+        if (!neighbor.visited && !neighbor.isWall) {
+            neighbor.visited = true;
+            neighbor.previous = current; // Track the previous node for path reconstruction
+            stack.push(neighbor);
+        }
+
+    });
     markAsVisited(current);
-    document.querySelector(`[data-row="${current.row}"][data-col="${current.col}"]`).classList.add('visited');
     debugText.innerText = `Visiting node at (${current.row}, ${current.col})`;
 }
 
-function updateNeighbors(current) {
-    current.neighbors.forEach(neighbor => {
-        if (!neighbor.visited && !neighbor.isWall) {
-            const tempG = current.g + 1;
-            const h = heuristic(neighbor, endNode);
-            if (tempG < neighbor.g) {
-                neighbor.previous = current;
-                neighbor.g = tempG;
-                neighbor.h = h;
-                neighbor.f = neighbor.g + neighbor.h;
-                if (!openSet.includes(neighbor)) openSet.push(neighbor);
-            }
-        }
-    });
-}
+
 
 function markAsVisited(current) {
     const cellDiv = document.querySelector(`[data-row="${current.row}"][data-col="${current.col}"]`);
@@ -218,29 +193,33 @@ function animateFollowingNodes(current) {
 
 function reconstructPath() {
     let temp = endNode;
+    const delay = 100; // Delay for path animation
 
+    // Animation for path reconstruction (highlight one by one)
     while (temp.previous) {
         path.unshift(temp);
         temp = temp.previous;
     }
-
-    // Include the start node in the path
-    path.unshift(startNode);
-
-    // Animate the path
+    
     path.forEach((node, index) => {
         setTimeout(() => {
             const nodeDiv = document.querySelector(`[data-row="${node.row}"][data-col="${node.col}"]`);
+            // Color the node as part of the path
             nodeDiv.classList.add('path');
             nodeDiv.style.transition = "background-color 0.3s ease, transform 0.3s ease";
             nodeDiv.style.backgroundColor = 'rgba(0, 0, 255, 0.7)'; // Path color
-            nodeDiv.style.transform = "scale(1.2)";
+            nodeDiv.style.transform = "scale(1.2)"; // Slight scaling animation for visual effect
             setTimeout(() => {
                 nodeDiv.style.transform = "scale(1)";
             }, 300);
-        }, index * 50); // Adjust delay between each step
+        }, index * delay);
     });
 
+    // Ensure start node is included in the path with color
+    const startDiv = document.querySelector(`[data-row="${startNode.row}"][data-col="${startNode.col}"]`);
+    startDiv.classList.add('path');
+    startDiv.style.backgroundColor = 'rgba(0, 0, 255, 0.7)'; // Path color for start node
+    
     debugText.innerText = 'Path found!';
     nextButton.disabled = true;
 }
@@ -253,34 +232,38 @@ async function startAutomatic() {
         return;
     }
 
-    openSet = [startNode];
-    startNode.g = 0;
-    startNode.f = heuristic(startNode, endNode);
+    stack.push(startNode);
+    startNode.visited = true;
+    isRunning = true; // Mark as running
 
     nextButton.disabled = true;
     startAutomaticButton.disabled = true;
     debugText.innerText = 'Automatic mode started. Please wait for the algorithm to finish.';
 
-    while (openSet.length > 0) {
-        openSet.sort((a, b) => a.f - b.f);
-        const current = openSet.shift();
-        current.visited = true;
+    while (stack.length > 0) {
+        const current = stack.pop();
+        visitedNodes.push(current);
+        document.querySelector(`[data-row="${current.row}"][data-col="${current.col}"]`).classList.add('visited');
 
         if (current === endNode) {
             reconstructPath();
             return;
         }
 
-        updateNeighbors(current);
+        current.neighbors.forEach(neighbor => {
+            if (!neighbor.visited && !neighbor.isWall) {
+                neighbor.visited = true;
+                neighbor.previous = current; // Track the previous node for path reconstruction
+                stack.push(neighbor);
+            }
+        });
         markAsVisited(current);
-        document.querySelector(`[data-row="${current.row}"][data-col="${current.col}"]`).classList.add('visited');
-        debugText.innerText = `Visiting node at (${current.row}, ${current.col})`;
-
         await new Promise(resolve => setTimeout(resolve, 20));
     }
 
     debugText.innerText = 'No path found.';
 }
+
 
 function generateMaze() {
     resetState(); // Clear existing state to prevent conflicts

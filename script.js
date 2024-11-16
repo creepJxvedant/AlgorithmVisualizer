@@ -11,8 +11,10 @@ const links=[
     [`./assests/quicksort.png`,`./QuickSort/quick.html`],
     [`./assests/mergesort.png`,`./MergeSort/merge.html`],
     [`./assests/selectionsort.png`,`./SelectionSort/selection.html`],
-    [`./assests/astar.webp`,`./Astar/Astar.html`],
-    [`./assests/djktra.jpeg`,`./Djktra/Dijiktra.html`],
+    [`./assests/astar.jpg`,`./Astar/Astar.html`],
+    [`./assests/BFS.jpg`,`./BFS/bfs.html`],
+    [`./assests/DFS.png`,`./DFS/dfs.html`],
+    [`./assests/djiktra.jpg`,`./Djktra/Dijiktra.html`],
 
 ];
 
