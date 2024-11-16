@@ -29,34 +29,38 @@
     </div>
 
     <section>
-        <h2>About Dijkstra's Algorithm</h2>
-        <p>Dijkstra's algorithm finds the shortest path between nodes in a graph. It is commonly used in networking and routing algorithms to determine the most efficient path.</p>
-
-        <h3>How Dijkstra's Algorithm Works</h3>
-        <p>Dijkstra's algorithm works by starting at a node and repeatedly selecting the node with the smallest known distance. It explores all neighboring nodes and updates their distance if a shorter path is found, until the shortest paths to all nodes are determined.</p>
-
+        <h3>About Bidirectional Dijkstra's Algorithm</h3>
+        <p>Bidirectional Dijkstra's algorithm is a variation of Dijkstra's algorithm used to find the shortest path between a source node and a destination node in a graph. The key difference between standard Dijkstra's and Bidirectional Dijkstra's is that the latter runs two simultaneous searches: one from the source node and the other from the destination node. These searches meet in the middle, which can significantly reduce the time complexity of finding the shortest path, especially for large graphs.</p>
+        
+        <h3>How Bidirectional Dijkstra's Algorithm Works</h3>
+        <p>The algorithm operates by performing two Dijkstra's searches in parallel:
+            <ol>
+                <li>The first search starts from the source node and explores the graph outward.</li>
+                <li>The second search begins from the destination node and explores the graph backward.</li>
+            </ol>
+        The algorithm terminates when the two searches meet. Once they meet, the shortest path can be reconstructed by combining the results of both searches.</p>
+        
         <h3>Time and Space Complexity</h3>
         <ul>
-            <li><strong>Time Complexity:</strong> O(V^2) using an adjacency matrix, or O(E + V log V) with a priority queue for sparse graphs, where V is the number of vertices and E is the number of edges.</li>
-            <li><strong>Space Complexity:</strong> O(V), to store distances and visited nodes.</li>
+            <li><strong>Time Complexity:</strong> The time complexity of Bidirectional Dijkstra’s algorithm is O(b^(d/2)), where <i>b</i> is the branching factor and <i>d</i> is the distance between the source and destination. This is much better than the O(b^d) complexity of traditional Dijkstra’s algorithm for large graphs.</li>
+            <li><strong>Space Complexity:</strong> The space complexity is O(b^(d/2)) as well, as it stores the search states for both the forward and reverse searches.</li>
         </ul>
-
-        <h3>Visualizing Dijkstra's Algorithm</h3>
-        <p>The visualization below shows how the algorithm progressively explores the shortest paths from the start node to all other nodes.</p>
-
-        <img src="dijkstra-visualization.jpg" alt="Dijkstra's Algorithm Visualization" width="600" />
-
-        <h3>Advantages of Dijkstra's Algorithm</h3>
+        
+        <h3>Advantages of Bidirectional Dijkstra's Algorithm</h3>
         <ul>
-            <li>Guaranteed to find the shortest path in graphs with non-negative edge weights.</li>
-            <li>Efficient when implemented with a priority queue.</li>
+            <li>Can be much faster than standard Dijkstra's algorithm, particularly in large graphs or when the source and destination are far apart.</li>
+            <li>Efficient when the destination is known in advance and can reduce the number of nodes explored.</li>
         </ul>
-
-        <h3>Limitations of Dijkstra's Algorithm</h3>
+        
+        <h3>Limitations of Bidirectional Dijkstra's Algorithm</h3>
         <ul>
-            <li>Does not work with graphs that have negative edge weights (for such cases, the Bellman-Ford algorithm should be used).</li>
-            <li>Can be slower for very large graphs if not optimized properly.</li>
+            <li>Not always applicable for all types of graphs (for example, graphs where the destination is not known in advance).</li>
+            <li>Requires two separate searches and additional memory to store the forward and reverse search states.</li>
         </ul>
+        
+        <h3>When to Use Bidirectional Dijkstra's Algorithm</h3>
+        <p>Bidirectional Dijkstra's is particularly effective in situations where both the source and destination are known, and there is a need to find the shortest path as quickly as possible. It is commonly used in routing problems, such as finding the shortest path in a road network or for GPS navigation systems.</p>
+                
     </section>
 
 
@@ -112,7 +116,7 @@
     
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-        <script src="dijkstra.js"></script>
+        <script src="swarm.js"></script>
     
     </body>
     </html>
