@@ -4,19 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>A* Algorithm - Manual & Automatic Mode</title>
-    <link rel="stylesheet" href="Astar.css">
+    <link rel="stylesheet" href="../Algorithm.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+   
 </head>
-<body>
-    <h1>A* Algorithm - Manual & Automatic Mode</h1>
+<body style="background-color:rgb(33, 152, 148)">
+    <header>
+        <h1>A* Algorithm - Manual & Automatic Mode</h1>
+    </header>
 
     <div id="grid-container"></div>
-    
+
     <div class="controls">
-        <button onclick="startManual()" id="start-manual">Start Manual</button>
-        <button onclick="startAutomatic()" id="start-automatic">Start Automatic</button>
-        <button onclick="nextStep()" id="next-button" disabled>Next Step</button>
-        <button onclick="resetGrid()">Reset</button>
-        <button onclick="generateMaze()">Generate Maze</button> 
+        <button onclick="startManual()" id="start-manual" class="btn">Start Manual</button>
+        <button onclick="startAutomatic()" id="start-automatic" class="btn">Start Automatic</button>
+        <button onclick="nextStep()" id="next-button" class="btn" disabled>Next Step</button>
+        <button onclick="resetGrid()" class="btn">Reset</button>
+        <button onclick="generateMaze()" class="btn">Generate Maze</button>
     </div>
 
     <div id="debug-panel">
@@ -24,6 +29,98 @@
         <p id="debug-text">Click "Start Manual" to begin.</p>
     </div>
 
+    <section>
+        <h2>About A* Algorithm</h2>
+        <p>The A* (A-star) algorithm is a popular and efficient pathfinding algorithm used for finding the shortest path between nodes in a graph...</p>
+
+        <h3>How A* Works</h3>
+        <p>A* uses the following formula to evaluate each node:</p>
+        <pre>
+        f(n) = g(n) + h(n)
+        </pre>
+        <ul>
+            <li><strong>f(n)</strong>: The total cost of the path through node n.</li>
+            <li><strong>g(n)</strong>: The cost to reach node n from the start node.</li>
+            <li><strong>h(n)</strong>: The heuristic estimate of the cost from node n to the goal.</li>
+        </ul>
+
+        <h3>Time and Space Complexity</h3>
+        <ul>
+            <li><strong>Time Complexity:</strong> O(b^d), where b is the branching factor and d is the depth of the solution.</li>
+            <li><strong>Space Complexity:</strong> O(b^d), due to the maintenance of a priority queue.</li>
+        </ul>
+
+        <h3>Visualizing A* Algorithm</h3>
+        <p>The visualization below shows how the algorithm finds the shortest path...</p>
+
+        <img src="astar-visualization.jpg" alt="A* Algorithm Visualization" width="600" />
+
+        <h3>Advantages of A* Algorithm</h3>
+        <ul>
+            <li>Optimal pathfinding when the heuristic is admissible.</li>
+            <li>Efficient compared to other search algorithms like Dijkstra.</li>
+        </ul>
+
+        <h3>Limitations of A* Algorithm</h3>
+        <ul>
+            <li>Performance can degrade with poor heuristics.</li>
+            <li>Memory usage can be high for large search spaces.</li>
+        </ul>
+    </section>
+
+  
+<section class="footer container-fluid bg-dark row  footer_border_box p-5" style="margin-top:100px; width:100vw; min-height:20vh; display:flex; flex-wrap:wrap; justify-content:space-between;">
+
+    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 d-flex  align-items-center gap-5">
+      <h2 class="local_footer_tag_text">Follow us</h2>
+      <a class="mb-2"><i class="bi bi-github local_footer_logos"></i></a>
+      <a class="mb-2"><i class="bi bi-linkedin local_footer_logos"></i></a>
+      <a class="mb-2"><i class="bi bi-discord local_footer_logos"></i></a>
+      <a class="mb-2"><i class="bi bi-instagram local_footer_logos"></i></a>
+    </div>
+<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12 d-flex flex-column align-items-center mt-4">
+    <svg fill="#DC143C" version="1.1" id="Capa_1" 
+    width="60px" height="60px" viewBox="0 0 40.051 40.051"
+    xml:space="preserve">
+ <g>
+   <path d="M9.072,27.051c1.387,0.112,2.72,0.033,4.601-0.236c1.947-0.28,3.861-0.685,5.655-1.075c0.966-0.21,1.932-0.427,2.895-0.645
+     c2.674-0.601,5.438-1.223,8.193-1.684c1.751-0.292,4.068-0.629,6.467-0.64h0.197c1.093,0,2.068,0.04,2.971,0.123
+     c-1.783-0.822-3.42-1.465-5.005-1.966c-1.133-0.356-2.631-0.769-4.184-0.771c-0.394-0.001-0.578-0.27-0.647-0.37l-1.628-2.357
+     c-0.014-0.021-0.083-0.123-0.094-0.145c-0.074-0.15-0.078-0.327-0.009-0.484c0.059-0.136,0.228-0.29,0.369-0.331
+     c0.037-0.011,0.074-0.02,0.111-0.027c1.915-0.354,4.192-0.733,6.568-0.857c1.494-0.077,3.001-0.049,4.512,0.085
+     c-1.845-0.851-3.537-1.512-5.191-2.032c-2.139-0.673-4.069-0.847-5.967-0.537c-2.221,0.361-4.589,0.81-7.453,1.412
+     c-1.42,0.298-2.838,0.608-4.256,0.918c-2.66,0.581-5.412,1.182-8.138,1.693c-1.014,0.191-2.195,0.403-3.388,0.501
+     c-0.824,0.066-1.641,0.021-2.461-0.025l-0.33-0.019c-0.897-0.048-1.842-0.135-2.857-0.26c0.448,0.2,0.907,0.393,1.372,0.577
+     c3.141,1.243,5.804,1.862,8.381,1.948c0.411,0.013,0.606,0.299,0.671,0.394l1.772,2.568c0.03,0.034,0.062,0.075,0.087,0.121
+     c0.076,0.135,0.089,0.355,0.03,0.498c-0.072,0.173-0.225,0.307-0.408,0.355c-0.014,0.004-0.117,0.027-0.131,0.03l-0.57,0.114
+     c-0.554,0.112-1.107,0.225-1.662,0.328c-1.97,0.369-4.016,0.754-6.109,0.597C2.275,24.767,1.134,24.676,0,24.543
+     c1.175,0.528,2.375,0.99,3.591,1.381C5.512,26.542,7.305,26.911,9.072,27.051z M14.874,19.661c0.065-0.158,0.263-0.317,0.431-0.347
+     l0.319-0.048c2.247-0.415,4.517-0.929,6.712-1.426l1.361-0.308c0.436-0.099,0.722,0.031,0.945,0.368
+     c0.312,0.469,0.633,0.932,0.955,1.394l0.439,0.636c0.092,0.14,0.128,0.356,0.062,0.511c-0.08,0.194-0.158,0.379-1.6,0.668
+     c-0.441,0.088-0.877,0.177-1.312,0.269c-2.022,0.427-4.045,0.858-6.065,1.299c-0.096,0.021-0.182,0.031-0.264,0.031
+     c-0.469,0-0.691-0.336-0.764-0.447c-0.23-0.35-0.467-0.693-0.707-1.04C14.906,20.525,14.733,20,14.874,19.661z M35.062,26.894
+     c1.603,0.515,3.219,1.149,4.984,1.965c-0.339-0.029-0.701-0.056-1.096-0.076c-1.5-0.083-3.018-0.067-4.469,0.059
+     c-1.557,0.135-3.19,0.362-5.139,0.719C26.93,30,24.5,30.546,22.15,31.075c-0.943,0.212-1.887,0.424-2.833,0.63
+     c-1.715,0.373-3.709,0.795-5.678,1.077c-1.829,0.263-3.156,0.34-4.533,0.234c-1.68-0.13-3.388-0.469-5.22-1.036
+     c-1.295-0.402-2.583-0.89-3.865-1.468c0.992,0.123,1.921,0.208,2.808,0.258l0.308,0.018c0.778,0.046,1.557,0.09,2.335,0.039
+     c1.204-0.079,2.381-0.289,3.582-0.515c2.776-0.524,5.58-1.137,8.29-1.729c1.511-0.33,3.022-0.66,4.536-0.977
+     c2.406-0.504,4.77-0.947,7.02-1.32C30.814,25.971,32.792,26.163,35.062,26.894z M3.181,12.602c-1.075-0.362-2.135-0.778-3.18-1.248
+     c1.17,0.138,2.318,0.23,3.408,0.309c2.031,0.148,4.039-0.195,5.906-0.551c2.665-0.509,5.356-1.096,7.959-1.664
+     c1.597-0.348,3.194-0.697,4.794-1.03c2.427-0.505,4.664-0.925,6.839-1.282c1.918-0.316,3.894-0.123,6.14,0.601
+     C36.645,8.25,38.295,8.9,40.04,9.705c-0.919-0.083-1.929-0.123-3.086-0.123c-1.653,0.003-3.451,0.162-5.657,0.5
+     c-2.98,0.457-5.96,1.126-8.841,1.773L20.73,12.24c-2.312,0.513-4.703,1.044-7.079,1.388c-1.838,0.266-3.179,0.345-4.576,0.233
+     C7.184,13.711,5.255,13.298,3.181,12.602z"/>
+ </g>
+ </svg>
+<h2 style="color:crimson;font-size: 20px;font-family: Customfamily,sans-serif;">
+    Kumo Kirie </h2>
+    <h6 style="text-align: end; color: rgb(69, 145, 160);">© 2024 Kumo Kirie. All rights reserved. </h6>
+</div>
+</section>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="Astar.js"></script>
+
 </body>
 </html>

@@ -61,8 +61,6 @@ h1 {
 }
 
 
-
-
 button {
     padding: 10px 20px;
     font-size: 16px;
@@ -111,4 +109,30 @@ h2 {
     border-bottom: 2px solid #4CAF50;
     padding-bottom: 5px;
     margin-bottom: 10px;
+}
+section{
+    margin-top: 20px;
+    padding: 15px;
+    background-color: rgb(137, 164, 164);
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-size: 16px;
+    color: #070907;
+    text-align: left;
+}
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+}
+
+footer a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
 }
