@@ -11,7 +11,7 @@ const links=[
     [`./assests/quicksort.png`,`./QuickSort/quick.html`],
     [`./assests/mergesort.png`,`./MergeSort/merge.html`],
     [`./assests/selectionsort.png`,`./SelectionSort/selection.html`],
-    [`./assests/astar.webp`,`.Astar/Astar.html`],
+    [`./assests/astar.webp`,`./Astar/Astar.html`],
     [`./assests/djktra.jpeg`,`./Djktra/Dijiktra.html`],
 
 ];
