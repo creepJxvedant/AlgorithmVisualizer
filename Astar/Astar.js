@@ -1,5 +1,5 @@
-const numRows = 10;
-const numCols = 25;
+const numRows = 20;
+const numCols = 50;
 let grid = [];
 let startNode = null;
 let endNode = null;
@@ -18,8 +18,8 @@ function createGrid() {
     gridContainer.innerHTML = ''; // Clear previous grid
     grid = [];
     
-    gridContainer.style.gridTemplateColumns = `repeat(${numCols}, 36px)`;
-    gridContainer.style.gridTemplateRows = `repeat(${numRows}, 36px)`;
+    gridContainer.style.gridTemplateColumns = `repeat(${numCols}, 18px)`;
+    gridContainer.style.gridTemplateRows = `repeat(${numRows}, 18px)`;
     
     for (let row = 0; row < numRows; row++) {
         let gridRow = [];
@@ -232,7 +232,7 @@ async function startAutomatic() {
         document.querySelector(`[data-row="${current.row}"][data-col="${current.col}"]`).classList.add('visited');
         debugText.innerText = `Visiting node at (${current.row}, ${current.col})`;
 
-        await new Promise(resolve => setTimeout(resolve, 80));
+        await new Promise(resolve => setTimeout(resolve, 10));
     }
 
     debugText.innerText = 'No path found.';

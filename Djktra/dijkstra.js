@@ -1,5 +1,5 @@
-const numRows = 10;
-const numCols = 25;
+const numRows = 20;
+const numCols = 50;
 let grid = [];
 let startNode = null;
 let endNode = null;
@@ -18,13 +18,14 @@ gridContainer.addEventListener('mousedown', () => isMouseDown = true);
 gridContainer.addEventListener('mouseup', () => isMouseDown = false);
 gridContainer.addEventListener('mouseleave', () => isMouseDown = false);
 
+// Initialize Grid
 function createGrid() {
     gridContainer.innerHTML = ''; // Clear previous grid
     grid = [];
     
     // Set grid dimensions dynamically
-    gridContainer.style.gridTemplateColumns = `repeat(${numCols}, 36px)`;
-    gridContainer.style.gridTemplateRows = `repeat(${numRows}, 36px)`;
+    gridContainer.style.gridTemplateColumns = `repeat(${numCols}, 18px)`;
+    gridContainer.style.gridTemplateRows = `repeat(${numRows}, 18px)`;
     
     for (let row = 0; row < numRows; row++) {
         let gridRow = [];
@@ -40,6 +41,7 @@ function createGrid() {
     assignNeighbors();
 }
 
+// Create a new cell object
 function createCell(row, col) {
     return {
         row,
@@ -55,6 +57,7 @@ function createCell(row, col) {
     };
 }
 
+// Create a div element for each cell
 function createCellDiv(cell) {
     const div = document.createElement('div');
     div.classList.add('cell');
@@ -65,6 +68,7 @@ function createCellDiv(cell) {
     return div;
 }
 
+// Assign neighbors to each cell
 function assignNeighbors() {
     for (let row = 0; row < numRows; row++) {
         for (let col = 0; col < numCols; col++) {
@@ -77,6 +81,7 @@ function assignNeighbors() {
     }
 }
 
+// Handle cell click event (for start/end/wall)
 function handleCellClick(div, cell) {
     if (!startNode) {
         setStartNode(cell, div);
@@ -87,25 +92,27 @@ function handleCellClick(div, cell) {
     }
 }
 
+// Set the start node
 function setStartNode(cell, div) {
     startNode = cell;
     cell.isStart = true;
-    start = cell;
     div.classList.add('start');
 }
 
+// Set the end node
 function setEndNode(cell, div) {
     endNode = cell;
-    end = cell;
     cell.isEnd = true;
     div.classList.add('end');
 }
 
+// Toggle the wall state of a cell
 function toggleWall(cell, div) {
     cell.isWall = !cell.isWall;
     div.classList.toggle('wall', cell.isWall);
 }
 
+// Handle cell drag event (to create walls)
 function handleCellDrag(div, cell) {
     if (isMouseDown && !cell.isStart && !cell.isEnd && !cell.isWall) {
         cell.isWall = true;
@@ -113,6 +120,7 @@ function handleCellDrag(div, cell) {
     }
 }
 
+// Reset grid to initial state
 function resetGrid() {
     gridContainer.innerHTML = '';
     createGrid();
@@ -120,6 +128,7 @@ function resetGrid() {
     debugText.innerText = 'Click "Start Manual" or "Start Automatic" to begin.';
 }
 
+// Reset all variables to initial state
 function resetState() {
     startNode = null;
     endNode = null;
@@ -131,10 +140,7 @@ function resetState() {
     startAutomaticButton.disabled = false;
 }
 
-function heuristic(a, b) {
-    return Math.abs(a.row - b.row) + Math.abs(a.col - b.col);
-}
-
+// Dijkstra's Algorithm's main logic
 function startManual() {
     if (!startNode || !endNode) {
         alert('Please select both start and end nodes.');
@@ -143,7 +149,7 @@ function startManual() {
 
     openSet = [startNode];
     startNode.g = 0;
-    startNode.f = heuristic(startNode, endNode);
+    startNode.f = startNode.g; // Dijkstra: f = g
 
     nextButton.disabled = false;
     startAutomaticButton.disabled = true;
@@ -156,7 +162,7 @@ function nextStep() {
         return;
     }
 
-    openSet.sort((a, b) => a.f - b.f);
+    openSet.sort((a, b) => a.g - b.g); // Sort by g (Dijkstra)
     const current = openSet.shift();
     current.visited = true;
 
@@ -172,12 +178,12 @@ function nextStep() {
 
 function updateNeighbors(current) {
     current.neighbors.forEach(neighbor => {
-        if (!neighbor.visited && !neighbor.isWall) { // Skip wall cells
+        if (!neighbor.visited && !neighbor.isWall) {
             const tempG = current.g + 1;
             if (tempG < neighbor.g) {
                 neighbor.previous = current;
                 neighbor.g = tempG;
-                neighbor.f = neighbor.g + heuristic(neighbor, endNode);
+                neighbor.f = neighbor.g; // Dijkstra: f = g
                 if (!openSet.includes(neighbor)) openSet.push(neighbor);
             }
         }
@@ -202,6 +208,7 @@ function reconstructPath() {
     nextButton.disabled = true;
 }
 
+// Automatic mode logic
 async function startAutomatic() {
     if (!startNode || !endNode) {
         alert('Please select both start and end nodes.');
@@ -210,14 +217,14 @@ async function startAutomatic() {
 
     openSet = [startNode];
     startNode.g = 0;
-    startNode.f = heuristic(startNode, endNode);
+    startNode.f = startNode.g; // Dijkstra: f = g
 
     nextButton.disabled = true;
     startAutomaticButton.disabled = true;
     debugText.innerText = 'Automatic mode started. Please wait for the algorithm to finish.';
 
     while (openSet.length > 0) {
-        openSet.sort((a, b) => a.f - b.f);
+        openSet.sort((a, b) => a.g - b.g); // Sort by g (Dijkstra)
         const current = openSet.shift();
         current.visited = true;
 
@@ -230,7 +237,7 @@ async function startAutomatic() {
         markAsVisited(current);
         debugText.innerText = `Visiting node at (${current.row}, ${current.col})`;
 
-        await new Promise(resolve => setTimeout(resolve, 80));
+        await new Promise(resolve => setTimeout(resolve, 10));
     }
 
     debugText.innerText = 'No path found.';

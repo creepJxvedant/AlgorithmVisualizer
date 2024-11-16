@@ -22,17 +22,6 @@ h1 {
     margin: 20px 0;
 }
 
-.cell {
-    width: 30px;
-    height: 30px;
-    background-color: #f4f4f9;
-    border: 1px solid #25c0d1e4;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-}
-
 /* Style for the grid container */
 .grid-container {
     display: grid;
@@ -41,8 +30,9 @@ h1 {
 
 /* Default cell style */
 .cell {
-    width: 36px;
-    height: 36px;
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
     background-color: white;
     border: 1px solid #ccc;
     display: flex;
