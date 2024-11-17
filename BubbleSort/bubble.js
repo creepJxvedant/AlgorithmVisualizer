@@ -1,4 +1,8 @@
 let array = [];
+const TAndC=`<div class="timeandspace">
+            <span>Time Complexity : O(N2)</span>
+            <span>Space Complexity : O(1)</span>
+        </div>`;
 const arrayContainer = document.getElementById("array-container");
 const debugText = document.getElementById("debug-text");
 const stepButton = document.getElementById("step-button");
@@ -10,9 +14,9 @@ const SizeInput= document.getElementById("Size");
 
 function GetSize(){
     Size = parseInt(SizeInput.value);
-    if (0 || Size === "") {
+     SizeInput.value = '';
+    if (Size>50 || Size === "") {
         updateDebugText("Please enter a valid size value.");
-        return;
     }
     generateArray();
     }
@@ -25,7 +29,7 @@ function generateArray() {
 }
 
 function renderArray() {
-    arrayContainer.innerHTML = "";
+    arrayContainer.innerHTML = TAndC;
     array.forEach((value) => {
         const bar = document.createElement("div");
         bar.classList.add("bar");
@@ -105,10 +109,11 @@ async function automaticSort() {
             await new Promise((resolve) => setTimeout(resolve, 200));
 
             if (array[j] > array[j + 1]) {
+                
                 bars[j].style.backgroundColor = "blue";
                 bars[j + 1].style.backgroundColor = "blue";
-
-                
+                await new Promise((resolve) => setTimeout(resolve, 200));
+ 
                 [array[j], array[j + 1]] = [array[j + 1], array[j]];
                 bars[j].style.height = `${array[j]}px`;
                 bars[j + 1].style.height = `${array[j + 1]}px`;

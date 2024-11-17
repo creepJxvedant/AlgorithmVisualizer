@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Graph Visualizer</title>
+  <link rel="stylesheet" href="graph.css">
+</head>
+<body>
+  <div id="controlPanel">
+    <button id="addNode" title="Add a new node">Add Node</button>
+    <button id="selectSource" title="Select the source node">Select Source</button>
+    <button id="startVisualization" title="Start TSP Visualization">Start TSP</button>
+    <button id="generateBtn">Generate Graph</button>
+    <label for="speedControl">Animation Speed:</label>
+    <input type="range" id="speedControl" min="500" max="3000" value="1000">
+    <span id="speedLabel">1 second</span>
+  </div>
+
+  <canvas id="graphCanvas"></canvas>
+
+  <div id="debugPanel"></div>
+
+  <script src="graph.js"></script>
+</body>
+</html>

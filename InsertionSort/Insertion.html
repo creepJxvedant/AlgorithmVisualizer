@@ -4,14 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bubble Sort Visualizer with Debug and Step Modes</title>
-    <link rel="stylesheet" href="Insertion.css">
+    <link rel="stylesheet" href="./Insertion.css">
+    <link
+    href="https://fonts.googleapis.com/css?family=Oswald&display=swap"
+    rel="stylesheet"
+/>
+<link 
+    href="https://fonts.googleapis.com/css?family=Livvic&display=swap"
+    rel="stylesheet"
+/>
+<link 
+    href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" 
+    rel="stylesheet"
+/>
+<title>Bubble Sort Visualization</title>
 </head>
 <body>
-    <h1>Insertion Sort Visualizer</h1>
+    <header>
+        <div class="header-container">
+            <div id="settings-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+            
+            <div>
+                <h1>Insertion <span>Sort</span> Visualization</h1>
+            </div>
+            
+            <div id="theme-switcher">
+                <i class="fas fa-adjust"></i>
+            </div>
+        </div>
+        <div class="gradient-border"></div>
+    </header>
+
     
-    <div id="array-container"></div>
+    <main> 
+   
+        <section style="display: grid;place-items: center;">
+        <div id="array-container">
+            <div class="timeandspace">
+            <span>Time Complexity : O(N2)</span>
+            <span>Space Complexity : O(1)</span>
+        </div>
+        </div>
     
     <div class="controls">
+        <label for="Size">Size:</label>
+        <input type="number" id="Size" placeholder="Enter Size">
         <button onclick="startAutomaticSort()">Automatic</button>
         <button onclick="setManualMode()">Manual</button>
         <button onclick="stepSort()" id="step-button" disabled>Step</button>
@@ -22,6 +61,15 @@
         <h2>Debug Info</h2>
         <p id="debug-text">Press "Automatic" or "Manual" to begin sorting...</p>
     </div>
+</section >
+
+<section class="description">
+ 
+    
+</section>
+
+</main>
+
     
     <script src="Insertion.js"></script>
 </body>

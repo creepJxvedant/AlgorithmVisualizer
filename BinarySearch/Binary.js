@@ -1,4 +1,8 @@
 let array = [];
+const TAndC=`<div class="timeandspace">
+            <span>Time Complexity : O(N2)</span>
+            <span>Space Complexity : O(1)</span>
+        </div>`;
 let target = null;
 const arrayContainer = document.getElementById("array-container");
 const debugText = document.getElementById("debug-text");
@@ -18,9 +22,9 @@ const manualSearchButton = document.getElementById("manual-search-button");
 
 
 function generateArray() {
-    const arraySize = 100;
+    const arraySize = 80;
     const minValue = 1;
-    const maxValue = 200;
+    const maxValue = 80;
 
     array = Array.from({ length: arraySize }, () => Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue);
     array.sort((a, b) => a - b); 
@@ -62,6 +66,7 @@ async function startAutoSearch() {
     if (isSearching || isManualMode) return;
 
     target = parseInt(targetInput.value);
+     targetInput.value='';
     if (isNaN(target) || target === "") {
         updateDebugText("Please enter a valid target value.");
         return;
@@ -116,6 +121,7 @@ async function startManualSearch() {
     if (isSearching || isManualMode) return;
 
     target = parseInt(targetInput.value);
+    targetInput.value ='';
     if (isNaN(target) || target === "") {
         updateDebugText("Please enter a valid target value.");
         return;
@@ -180,5 +186,4 @@ function resetArray() {
     manualSearchButton.disabled = false;
 }
 
-// Initial array generation
 generateArray();

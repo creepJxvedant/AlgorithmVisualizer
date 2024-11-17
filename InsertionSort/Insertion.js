@@ -1,11 +1,25 @@
 let array = [];
+const TAndC=`<div class="timeandspace">
+            <span>Time Complexity : O(N2)</span>
+            <span>Space Complexity : O(1)</span>
+        </div>`;
 const arrayContainer = document.getElementById("array-container");
 const debugText = document.getElementById("debug-text");
 const stepButton = document.getElementById("step-button");
-
+let Size=0;
 let isSorting = false;
 let isManual = false;
 let i = 1, j = 0;
+const SizeInput= document.getElementById("Size");
+
+function GetSize(){
+    Size = parseInt(SizeInput.value);
+     SizeInput.value = '';
+    if (Size>50 || Size === "") {
+        updateDebugText("Please enter a valid size value.");
+    }
+    generateArray();
+    }
 
 function generateArray() {
     array = Array.from({ length: 40 }, () => Math.floor(Math.random() * 200) + 10);
@@ -15,7 +29,7 @@ function generateArray() {
 }
 
 function renderArray() {
-    arrayContainer.innerHTML = "";
+    arrayContainer.innerHTML = TAndC;
     array.forEach((value) => {
         const bar = document.createElement("div");
         bar.classList.add("bar");
@@ -144,4 +158,4 @@ function resetArray() {
     generateArray();
 }
 
-generateArray();
+SizeInput.addEventListener('change', GetSize);
