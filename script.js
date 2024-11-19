@@ -18,7 +18,7 @@ const links=[
     [`./assests/Bubble.jpg`,`./Graph/graph.html`],
     [`./assests/Insertion.jpg`,`./LinkedList/linkedlist.html`],
     [`./assests/binarysearch.jpg`,`./Swarm/swarm.html`],
-    [`./assests/Bubble.jpg`,`./Exponential/exponential.html`],
+    [`./assests/exponential.png`,`./Exponential/exponential.html`],
 
 ];
 
@@ -26,8 +26,7 @@ function showData() {
     links.forEach(link => {
         console.log(link);
     const Card = document.createElement("div");
-     Card.className = "card background-image";
-     Card.style.transition="0.3s ease scale";
+     Card.classList.add("card");
 
       Card.style.backgroundImage = `url(${link[0]})`;
       Card.addEventListener("click", () => {
