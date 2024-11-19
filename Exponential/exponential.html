@@ -75,6 +75,50 @@
             </div>
         </div>
     </div>
+
+
+    
+    <section class="description">
+        <h2>About Exponential Search</h2>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Binary_search_algorithm_diagram.svg" 
+             alt="Exponential Search Illustration" 
+             class="description-image">
+        <p>
+            Exponential Search is an algorithm that combines the strengths of Binary Search with a dynamic approach to determine the search range. It is highly efficient for large, sorted datasets.
+        </p>
+        <p>
+            The algorithm begins by finding the range where the target element lies by repeatedly doubling the index (exponentially growing bounds). Once the range is determined, it applies Binary Search within that range to locate the target.
+        </p>
+        <h3>Key Features:</h3>
+        <ul>
+            <li><strong>Efficient:</strong> Time complexity of <code>O(log N)</code> for searching in sorted arrays.</li>
+            <li><strong>Range Discovery:</strong> Dynamically finds the subarray containing the target.</li>
+            <li><strong>Divide-and-Conquer:</strong> Utilizes Binary Search for precise element location.</li>
+        </ul>
+        <h3>Advantages:</h3>
+        <ul>
+            <li>Faster than Binary Search for large datasets with unknown boundaries.</li>
+            <li>Minimal space requirements as it operates in-place.</li>
+        </ul>
+        <h3>Disadvantages:</h3>
+        <ul>
+            <li>Requires a sorted dataset, similar to Binary Search.</li>
+            <li>Performance may degrade if the target element lies at the beginning or far outside the dataset.</li>
+        </ul>
+    </section>
+    
+
+<footer>
+    <div class="footer-content">
+        <p>© 2024 Algorithm Visualizer. All rights reserved.</p>
+        <p>
+            Built with ❤️ by [Vedant verma and Team]. Find the project on 
+            <a href="https://github.com/" target="_blank">GitHub</a>.
+        </p>
+    </div>
+</footer>
+
+
     <script src="exponential.js"></script>
 </body>
 </html>

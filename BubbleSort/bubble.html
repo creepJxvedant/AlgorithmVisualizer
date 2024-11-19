@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bubble Sort Visualizer with Debug and Step Modes</title>
-    <link rel="stylesheet" href="./bubble.css">
+    <link rel="stylesheet" href="../CSS/Sortings.css">
     <link
     href="https://fonts.googleapis.com/css?family=Oswald&display=swap"
     rel="stylesheet"
@@ -13,11 +13,16 @@
     href="https://fonts.googleapis.com/css?family=Livvic&display=swap"
     rel="stylesheet"
 />
-<link 
-    href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" 
-    rel="stylesheet"
+<link  href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet"
 />
 <title>Bubble Sort Visualization</title>
+
+<style>
+    .bar{
+        background-color: rgb(39, 151, 39);
+    }
+</style>
+
 </head>
 <body>
     <header>
@@ -39,14 +44,12 @@
 
     
     <main> 
+
    
         <section style="display: grid;place-items: center;">
         <div id="array-container">
-        
-            <div class="timeandspace">
-            <span>Time Complexity : O(N2)</span>
-            <span>Space Complexity : O(1)</span>
-        </div>
+    
+          
         </div>
     
     <div class="controls">
@@ -58,6 +61,11 @@
         <button onclick="resetArray()">Reset</button>
     </div>
     
+    <div class="terminal">
+    <label for="ArrayInput">Array Input:</label>
+    <input type="text" id="Array-input" placeholder="Array values">
+    <button id="ok-button">OK</button>
+</div>
     <div id="debug-panel">
         <h2>Debug Info</h2>
         <p id="debug-text">Press "Automatic" or "Manual" to begin sorting...</p>
@@ -65,13 +73,45 @@
 </section >
 
 <section class="description">
- 
-    
+    <h2>About Bubble Sort</h2>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c8/Bubble-sort-example-300px.gif" alt="Bubble Sort Animation" class="description-image">
+    <p>
+        Bubble Sort is one of the simplest sorting algorithms that works by repeatedly stepping through the list, comparing adjacent elements, and swapping them if they are in the wrong order. This process is repeated until the list is sorted. 
+    </p>
+    <p>
+        The algorithm gets its name because smaller elements "bubble" to the top of the list while larger elements sink to the bottom with each iteration.
+    </p>
+    <h3>Key Features:</h3>
+    <ul>
+        <li><strong>Comparison-based:</strong> Compares each pair of adjacent elements.</li>
+        <li><strong>In-place Sorting:</strong> Does not require extra space for sorting.</li>
+        <li><strong>Stable:</strong> Maintains the relative order of equal elements.</li>
+    </ul>
+    <h3>Advantages:</h3>
+    <ul>
+        <li>Simple and easy to implement.</li>
+        <li>Useful for small datasets.</li>
+    </ul>
+    <h3>Disadvantages:</h3>
+    <ul>
+        <li>Not suitable for large datasets due to poor performance.</li>
+        <li>Time complexity of <code>O(N<sup>2</sup>)</code> in the worst and average cases.</li>
+    </ul>
 </section>
-
 </main>
 
-    
+<footer>
+    <div class="footer-content">
+        <p>© 2024 Algorithm Visualizer. All rights reserved.</p>
+        <p>
+            Built with ❤️ by [Vedant verma and Team]. Find the project on 
+            <a href="https://github.com/" target="_blank">GitHub</a>.
+        </p>
+    </div>
+</footer>
+
+<script type="module" src="../Modules/utils.js"></script>
     <script src="bubble.js"></script>
+     
 </body>
 </html>

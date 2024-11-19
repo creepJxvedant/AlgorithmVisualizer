@@ -5,6 +5,7 @@ canvas.height = window.innerHeight * 0.8;
 
 const nodes = [];
 const edges = [];
+let lastNode=null;
 let selectedNodes = [];
 let draggingNode = null;
 let sourceNode = null; // Source node for TSP visualization
@@ -23,7 +24,7 @@ class Node {
       this.x = x;
       this.y = y;
       this.data = data || Math.floor(Math.random() * 100);
-      this.radius = 20;
+      this.radius = 40;
       this.selected = false;
       this.visited = false; // Track if the node has been visited
     }
@@ -239,6 +240,7 @@ document.getElementById("startVisualization").addEventListener("click", () => {
 function startTSPVisualization() {
     const connectedComponent = getConnectedComponent(sourceNode);
     const unvisited = new Set(connectedComponent);
+ 
     const path = [];
     let current = sourceNode;
     let totalDistance = 0;
@@ -262,7 +264,8 @@ function startTSPVisualization() {
           });
         }
       }
-  
+      
+
       return Array.from(visited);
     }
   
@@ -389,6 +392,3 @@ function generate() {
   document.getElementById("generateBtn").addEventListener("click", generate);
 
 
-  setTimeout(()=>{
-    console.log("Unvisited nodes:", Array.from(unvisited).map(node => node.data))
-  },20000);

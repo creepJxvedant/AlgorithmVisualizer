@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>N-Queens Problem</title>
+    <link rel="stylesheet" href="nqueens.css">
+</head>
+<body>
+
+    <main>
+    <h1>N-Queens Problem</h1>
+
+
+    <div class="container">    
+        <div>
+            <button id="manual-mode">Manual Mode</button>
+            <button id="auto-mode">Automatic Mode</button>
+        </div>
+        <div class="board-container"></div>
+        <button id="next-step" style="display: none;">Next Step</button>
+        <p id="debug-text"></p>
+    </div>
+     
+    <label for="num-queens">Number of Queens (1-8):</label>
+    <input type="number" id="num-queens" min="1" max="8" value="8">
+
+</main>
+    <script  src="nqueens.js"></script>
+    
+</body>
+</html>
