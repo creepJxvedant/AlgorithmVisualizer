@@ -1,13 +1,13 @@
-/* General Body and Layout Styles */
+
+/* ----------------------------------------------------------------- */
+/* Global */
+/* ----------------------------------------------------------------- */
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #000000;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 0;
-    padding: 0;
+    background-color: rgb(25, 25, 25);
+    position: relative; 
 }
+
 
 h1 {
     margin: 20px 0;
@@ -15,9 +15,9 @@ h1 {
     font-size: 2em;
 }
 
-/* Array Container Styling */
 #array-container {
     display: flex;
+    position: relative;
     align-items: flex-end;
     justify-content: center;
     height: 300px;
@@ -25,13 +25,14 @@ h1 {
     margin: 20px auto;
     background-color: #000000;
     padding: 10px;
+    
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .bar {
     width: 20px;
-    background-color: #fffefe;
+    background-color: #1b8a1f;
     margin: 2px;
     transition: all 0.4s ease;
     border-radius: 3px;
@@ -39,26 +40,10 @@ h1 {
 
 .controls {
     display: flex;
-    align-items: center;
+    flex-direction: row;
+    justify-content: center;
     margin-top: 20px;
-    gap: 10px;
-    width: 60%;
-}
-
-.controls label {
-    font-size: 16px;
-    margin-right: 10px;
-    color: #fff;
-}
-
-.controls input {
-    padding: 8px;
-    margin: 5px 0;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    width: 100%; 
-    max-width: 250px;
+    gap: 15px;
 }
 
 button {
@@ -70,9 +55,6 @@ button {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    width: 100%; 
-    max-width: 250px;
-    margin-top: 10px;
 }
 
 button:hover {
@@ -84,6 +66,17 @@ button:disabled {
     cursor: not-allowed;
 }
 
+#sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+    width: 220px;
+}
 
 #debug-panel {
     width: 40%;
@@ -97,19 +90,13 @@ button:disabled {
     text-align: left;
 }
 
-
 #debug-text {
     font-size: 1.1em;
     color: #696464;
     font-family: 'Courier New', Courier, monospace;
     white-space: pre-wrap;
 }
-#debug-array-text {
-    font-size: 1.1em;
-    color: #817a7a;
-    font-family: 'Courier New', Courier, monospace;
-    white-space: pre-wrap;
-}
+
 h2 {
     color: #bc1b1b;
     font-size: 18px;
@@ -120,14 +107,209 @@ h2 {
     margin-bottom: 10px;
 }
 
-/* Range Slider Styling (if used) */
 input[type="range"] {
     width: 100%;
     margin-top: 10px;
 }
 
-/* Value Display Styling */
 #bar-width-value, #speed-value {
     font-weight: bold;
     color: #007BFF;
 }
+
+/* ----------------------------------------------------------------- */
+/* Header */
+/* ----------------------------------------------------------------- */
+
+div.header-container {
+    display: grid;
+    grid-template-columns: 1fr 5fr 1fr;
+    place-items: center;
+}
+
+header h1 {
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    color: #fff;
+}
+
+header h1 span {
+    font-style: italic;
+    color: #8900e8;
+}
+
+div.gradient-border {
+    width: 95%;
+    height: 1px;
+    margin: 0 auto;
+    background: linear-gradient(to right,  #0067ff, #8900e8);
+}
+
+/* Webkit browsers custom scrollbar */
+
+::-webkit-scrollbar {
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px #4d4de0; 
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 15px;
+    background: #7e7eed;
+}
+
+/* Firefox */
+
+section.list {
+    scrollbar-color: #7474fd rgb(202, 190, 255);
+    scrollbar-width: thin;
+}
+
+
+/* ----------------------------------------------------------------- */
+/* Operations */
+/* ----------------------------------------------------------------- */
+
+div.controls input {
+    padding: 5px;
+    border: none;
+    display: block;
+    margin: 0 auto;
+    box-sizing: border-box;
+    margin-top: 10px;
+}
+
+div.controls label{
+    margin-top:10px;
+    text-align: end;
+    font-size:1.1em;
+    color: #0819b0;
+    
+}
+
+div.controls input::placeholder {
+    font-style: italic;
+}
+
+/* ----------------------------------------------------------------- */
+/* Buttons */
+/* ----------------------------------------------------------------- */
+
+button.button {
+    border: none;
+    background: linear-gradient(-125deg,  #0067ff, #8900e8);
+    padding: 10px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-style: italic;
+    color: #fff;
+    display: block;
+    margin: 0 auto;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+}
+
+button.button:hover {
+    transform: scale(1.03);
+}
+
+
+.timeandspace{
+    display: flex;
+    flex-direction: column;
+    gap:5px;
+    top:0;
+    right:0;
+    position: absolute;
+}
+.timeandspace span{
+    color: rgb(65, 176, 17);
+}
+#debug-array-text{
+    color: #8f8585;
+    font-size:1.1em;
+    }
+
+
+    .description {
+        margin: 2rem auto;
+        padding: 1.5rem;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        width: 80%;
+        font-family: 'Livvic', sans-serif;
+        line-height: 1.6;
+    }
+    
+    .description h2, .description h3 {
+        font-family: 'Oswald', sans-serif;
+        color: #333;
+    }
+    
+    .description h2 {
+        text-align: center;
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+    
+    .description p {
+        font-size: 1rem;
+        margin: 0.5rem 0;
+        color: #555;
+    }
+    
+    .description ul {
+        list-style: disc;
+        padding-left: 2rem;
+        margin: 0.5rem 0;
+        color: #555;
+    }
+    
+    .description ul li {
+        margin-bottom: 0.5rem;
+    }
+    
+    .description img.description-image {
+        display: block;
+        margin: 1rem auto;
+        max-width: 100%;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    
+    .description code {
+        font-family: 'Courier New', Courier, monospace;
+        background-color: #e9e9e9;
+        padding: 0.2rem 0.4rem;
+        border-radius: 4px;
+        color: #d6336c;
+    }
+    
+    footer {
+        background-color: #333;
+        color: #f1f1f1;
+        text-align: center;
+        padding: 1rem 0;
+        margin-top: 2rem;
+        font-family: 'Montserrat', sans-serif;
+    }
+    
+    footer .footer-content p {
+        margin: 0.5rem 0;
+        font-size: 0.9rem;
+    }
+    
+    footer a {
+        color: #00bcd4;
+        text-decoration: none;
+    }
+    
+    footer a:hover {
+        text-decoration: underline;
+    }
+    
+    

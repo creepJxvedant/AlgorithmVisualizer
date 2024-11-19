@@ -1,0 +1,87 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f9;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#controlPanel {
+  background: #fff;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+input[type="range"] {
+  margin: 0 10px;
+}
+
+#graphCanvas {
+  border: 2px solid #007bff;
+  background-color: #fff;
+  cursor: pointer;
+}
+
+#debugPanel {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #333;
+  color: white;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 600px;
+}
+
+#graphCanvas {
+  margin-top: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+#speedLabel {
+  color: #007bff;
+}
+
+#graphCanvas {
+  border: 1px solid black;
+}
+#generateBtn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+#generateBtn:hover {
+  background-color: #0056b3;
+}
+
+.source{
+  background-color: #0056b3;
+}

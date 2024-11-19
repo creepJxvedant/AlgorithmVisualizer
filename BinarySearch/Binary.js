@@ -1,4 +1,8 @@
 let array = [];
+const TAndC=`<div class="timeandspace">
+            <span>Time Complexity : O(log(n))</span>
+            <span>Space Complexity : O(1)</span>
+        </div>`;
 let target = null;
 const arrayContainer = document.getElementById("array-container");
 const debugText = document.getElementById("debug-text");
@@ -8,7 +12,7 @@ let isSearching = false;
 let left = 0;
 let right = 0;
 let mid = 0;
-let isManualMode = false; // To track manual mode state
+let isManualMode = false;
 let isFirst=true;
 
 const targetInput = document.getElementById("target-val");
@@ -18,9 +22,9 @@ const manualSearchButton = document.getElementById("manual-search-button");
 
 
 function generateArray() {
-    const arraySize = 100;
+    const arraySize = 60;
     const minValue = 1;
-    const maxValue = 200;
+    const maxValue = 100;
 
     array = Array.from({ length: arraySize }, () => Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue);
     array.sort((a, b) => a - b); 
@@ -62,6 +66,7 @@ async function startAutoSearch() {
     if (isSearching || isManualMode) return;
 
     target = parseInt(targetInput.value);
+     targetInput.value='';
     if (isNaN(target) || target === "") {
         updateDebugText("Please enter a valid target value.");
         return;
@@ -83,7 +88,7 @@ async function startAutoSearch() {
 
         mid = Math.floor((left + right) / 2);
         
-        await new Promise((resolve) => setTimeout(resolve, 200));
+        await new Promise((resolve) => setTimeout(resolve, 500));
      
      Array.from(bars)[mid].style.backgroundColor="blue";
         updateDebugText(`Left: ${array[left]}, Mid: ${array[mid]}, Right: ${array[right]}`);
@@ -99,7 +104,7 @@ async function startAutoSearch() {
             right = mid - 1;
         }
 
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await new Promise((resolve) => setTimeout(resolve, 800));
     }
 
     if (left > right) {
@@ -116,6 +121,7 @@ async function startManualSearch() {
     if (isSearching || isManualMode) return;
 
     target = parseInt(targetInput.value);
+    targetInput.value ='';
     if (isNaN(target) || target === "") {
         updateDebugText("Please enter a valid target value.");
         return;
@@ -180,5 +186,4 @@ function resetArray() {
     manualSearchButton.disabled = false;
 }
 
-// Initial array generation
 generateArray();

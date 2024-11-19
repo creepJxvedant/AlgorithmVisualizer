@@ -3,33 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Binary Search Visualizer</title>
+    <title>Linear Search Visualizer</title>
+    <link href="https://fonts.googleapis.com/css?family=Oswald&display=swap"
+    rel="stylesheet"/>
+<link  href="https://fonts.googleapis.com/css?family=Livvic&display=swap"
+    rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" 
+    rel="stylesheet"/>
+
     <link rel="stylesheet" href="./linear.css">
+
 </head>
 <body>
-    <h1>Linear Search Visualizer</h1>
-    
-    <div id="array-container"></div>
-    <p id="debug-array-text"></p>
-    <div class="controls">
-        <label for="Size" style="color: rgb(113, 95, 95);">Size:</label>
-        <input type="number" id="Size" placeholder="Enter Size">
-
-        <label for="target-val">Target Value:</label>
-        <input type="number" id="target-val" placeholder="Enter target">
+            <header>
+                <div class="header-container">
+                    <div id="settings-menu">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                    
+                    <div>
+                        <h1>Linear <span>Search</span> Visualization</h1>
+                    </div>
+                    
+                    <div id="theme-switcher">
+                        <i class="fas fa-adjust"></i>
+                    </div>
+                </div>
+                <div class="gradient-border"></div>
+            </header>
         
-        <button onclick="startAutoSearch()" id="auto-search-button">Auto Search</button>
-        <button onclick="startManualSearch()" id="manual-search-button">Manual Search</button>
-        <button id="next-step-button" onclick="nextStep()" disabled>Next Step</button>
-        <button onclick="resetArray()">Reset</button>
-    </div>
+            
+            <main> 
+           
+                <section style="display: grid;place-items: center;">
+                <div id="array-container">
+                    
+                </div>
+                <div id="debug-array-text"></div>
+            
+            <div class="controls">
+                <label for="Size" style="color: rgb(113, 95, 95);">Size:</label>
+                <input type="number" id="Size" placeholder="Enter Size">
+        
+                <label for="target-val">Target Value:</label>
+                <input type="number" id="target-val" placeholder="Enter target">
+
+                <button onclick=startAutoSearch() id="auto-button">Automatic</button>
+                <button onclick="startManualSearch()" id="manual-button">Manual</button>
+                <button onclick="nextStep()" id="step-button" disabled>Step</button>
+                <button onclick="resetArray()">Reset</button>
+            </div>
+            
+            <div id="debug-panel">
+                <h2>Debug Info</h2>
+                <p id="debug-text">Press "Automatic" or "Manual" to begin sorting...</p>
+            </div>
+        </section >
+        
+         
+        <section class="description">
+            <h2>About Linear Search</h2>
+            <img src="https://www.educative.io/v2api/editor/51458/56271/images/1578724421388"
+                 alt="Linear Search Animation" 
+                 class="description-image">
+            <p>
+                Linear Search is the simplest search algorithm that checks each element in a list sequentially until the target element is found or the end of the list is reached.
+            </p>
+            <p>
+                The algorithm does not require the list to be sorted and is easy to implement, making it ideal for small datasets or lists with unsorted elements.
+            </p>
+            <h3>Key Features:</h3>
+            <ul>
+                <li><strong>Sequential Search:</strong> Examines each element in order.</li>
+                <li><strong>Unsorted Data:</strong> Does not require the list to be sorted.</li>
+                <li><strong>Simplicity:</strong> Easy to understand and implement.</li>
+            </ul>
+            <h3>Advantages:</h3>
+            <ul>
+                <li>Works with unsorted and unordered data.</li>
+                <li>Useful for small lists or datasets.</li>
+                <li>No additional memory requirements.</li>
+            </ul>
+            <h3>Disadvantages:</h3>
+            <ul>
+                <li>Time complexity of <code>O(N)</code>, making it inefficient for large datasets.</li>
+                <li>Not as efficient as binary or exponential search for sorted data.</li>
+                <li>May require traversing the entire list in the worst case.</li>
+            </ul>
+        </section>
+        
     
-    <div id="debug-panel">
-        <h2>Debug Info</h2>
-        <p id="debug-text">Press "Start Binary Search" to begin searching...</p>
-        <p id="debug-array-text"></p>
+    </main>
+
+<footer>
+    <div class="footer-content">
+        <p>© 2024 Algorithm Visualizer. All rights reserved.</p>
+        <p>
+            Built with ❤️ by [Vedant verma and Team]. Find the project on 
+            <a href="https://github.com/" target="_blank">GitHub</a>.
+        </p>
     </div>
-    
-    <script src="linear.js"></script>
-</body>
-</html>
+</footer>
+        
+            
+            <script src="linear.js"></script>
+        </body>
+        </html>
+        

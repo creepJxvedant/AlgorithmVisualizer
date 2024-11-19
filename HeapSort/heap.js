@@ -1,16 +1,33 @@
 // JavaScript code to implement Heap Sort visualization
 
 let array = [];
-const arrayContainer = document.getElementById("array-container");
+const TAndC=`<div class="timeandspace">
+            <span>Time Complexity : O(N2)</span>
+            <span>Space Complexity : O(1)</span>
+        </div>`;
+
+        const arrayContainer = document.getElementById("array-container");
 const debugText = document.getElementById("debug-text");
 const stepButton = document.getElementById("step-button");
 let isSorting = false;
 let isManual = false;
+let Size=0;
 let i = 0; // Manual sort step tracker
+
+const SizeInput= document.getElementById("Size");
+
+function GetSize(){
+    Size = parseInt(SizeInput.value);
+     SizeInput.value = '';
+    if (Size>50 || Size === "") {
+        updateDebugText("Please enter a valid size value.");
+    }
+    generateArray();
+    }
 
 // Generate a random array
 function generateArray() {
-    array = Array.from({ length: 40 }, () => Math.floor(Math.random() * 200) + 10);
+    array = Array.from({ length: Size }, () => Math.floor(Math.random() * 200) + 10);
     renderArray();
     resetIndices();
     updateDebugText("New array generated. Choose 'Automatic' or 'Manual' to start sorting.");
@@ -231,5 +248,4 @@ stepButton.addEventListener("click", stepSort);
 document.querySelector("button[onclick='startAutomaticSort()']").addEventListener("click", startAutomaticSort);
 document.querySelector("button[onclick='resetArray()']").addEventListener("click", resetArray);
 
-// Initialize the array
-generateArray();
+SizeInput.addEventListener('change', GetSize);

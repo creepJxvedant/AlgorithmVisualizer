@@ -1,4 +1,8 @@
 let array = [];
+const TAndC=`<div class="timeandspace">
+            <span>Time Complexity : O(N)</span>
+            <span>Space Complexity : O(1)</span>
+        </div>`;
 let target = null;
 let current=0;
 let Size=0;
@@ -6,19 +10,19 @@ let Size=0;
 const arrayContainer = document.getElementById("array-container");
 const debugText = document.getElementById("debug-text");
 const debugArrayText = document.getElementById("debug-array-text");
-
+const nextStepButton=document.getElementById("step-button");
+const manualSearchButton=document.getElementById("auto-button");
+const autoSearchButton=document.getElementById("manual-button");
 let isSearching = false;
 let isManualMode = false;
 
 const targetInput = document.getElementById("target-val");
 const SizeInput = document.getElementById("Size");
-const nextStepButton = document.getElementById("next-step-button");
-const autoSearchButton = document.getElementById("auto-search-button");
-const manualSearchButton = document.getElementById("manual-search-button");
 
 function GetSize(){
 Size = parseInt(SizeInput.value);
-if (0 || target === "") {
+SizeInput.value='';
+if (Size >50 || target === "") {
     updateDebugText("Please enter a valid target value.");
     return;
 }
@@ -66,6 +70,7 @@ async function startAutoSearch() {
     if (isSearching || isManualMode) return;
 
     target = parseInt(targetInput.value);
+    targetInput.value = "";
     if (isNaN(target) || target === "") {
         updateDebugText("Please enter a valid target value.");
         return;
@@ -112,6 +117,7 @@ async function startManualSearch() {
     if (isSearching || isManualMode) return;
 
     target = parseInt(targetInput.value);
+    targetInput.value = "";
     if (isNaN(target) || target === "") {
         updateDebugText("Please enter a valid target value.");
         return;
@@ -158,8 +164,6 @@ function nextStep() {
     current++;
 
 }
-
-
 
 
 function resetArray() {

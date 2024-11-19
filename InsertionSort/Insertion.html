@@ -4,14 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bubble Sort Visualizer with Debug and Step Modes</title>
-    <link rel="stylesheet" href="Insertion.css">
+    <link rel="stylesheet" href="../CSS/Sortings.css">
+    <link
+    href="https://fonts.googleapis.com/css?family=Oswald&display=swap"
+    rel="stylesheet"
+/>
+<link 
+    href="https://fonts.googleapis.com/css?family=Livvic&display=swap"
+    rel="stylesheet"
+/>
+<link 
+    href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" 
+    rel="stylesheet"
+/>
+<title>Bubble Sort Visualization</title>
 </head>
 <body>
-    <h1>Insertion Sort Visualizer</h1>
+    <header>
+        <div class="header-container">
+            <div id="settings-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+            
+            <div>
+                <h1>Insertion <span>Sort</span> Visualization</h1>
+            </div>
+            
+            <div id="theme-switcher">
+                <i class="fas fa-adjust"></i>
+            </div>
+        </div>
+        <div class="gradient-border"></div>
+    </header>
+
     
-    <div id="array-container"></div>
+    <main> 
+   
+        <section style="display: grid;place-items: center;">
+        <div id="array-container">
+            <div class="timeandspace">
+            <span>Time Complexity : O(N2)</span>
+            <span>Space Complexity : O(1)</span>
+        </div>
+        </div>
     
     <div class="controls">
+        <label for="Size">Size:</label>
+        <input type="number" id="Size" placeholder="Enter Size">
         <button onclick="startAutomaticSort()">Automatic</button>
         <button onclick="setManualMode()">Manual</button>
         <button onclick="stepSort()" id="step-button" disabled>Step</button>
@@ -22,6 +61,51 @@
         <h2>Debug Info</h2>
         <p id="debug-text">Press "Automatic" or "Manual" to begin sorting...</p>
     </div>
+</section >
+
+<section class="description">
+    <h2>About Insertion Sort</h2>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/0f/Insertion-sort-example-300px.gif" 
+         alt="Insertion Sort Animation" 
+         class="description-image">
+    <p>
+        Insertion Sort is a simple and intuitive sorting algorithm that builds the sorted list one element at a time. It works by taking elements from the unsorted portion of the array and inserting them into their correct position in the sorted portion.
+    </p>
+    <p>
+        The algorithm mimics how you might sort playing cards in your hands: you pick each card and place it in the correct position relative to the cards already sorted.
+    </p>
+    <h3>Key Features:</h3>
+    <ul>
+        <li><strong>Stable:</strong> Maintains the relative order of elements with equal keys.</li>
+        <li><strong>In-place:</strong> Requires no additional memory for sorting.</li>
+        <li><strong>Adaptive:</strong> Performs well on nearly sorted data with <code>O(N)</code> in the best case.</li>
+    </ul>
+    <h3>Advantages:</h3>
+    <ul>
+        <li>Simple and easy to implement.</li>
+        <li>Efficient for small or nearly sorted datasets.</li>
+        <li>Sorting can be done as the data is received.</li>
+    </ul>
+    <h3>Disadvantages:</h3>
+    <ul>
+        <li>Not suitable for large datasets due to <code>O(N²)</code> time complexity in the average and worst cases.</li>
+        <li>Requires more comparisons and shifts compared to advanced algorithms like Merge Sort.</li>
+    </ul>
+</section>
+</main>
+
+
+
+<footer>
+    <div class="footer-content">
+        <p>© 2024 Algorithm Visualizer. All rights reserved.</p>
+        <p>
+            Built with ❤️ by [Vedant verma and Team]. Find the project on 
+            <a href="https://github.com/" target="_blank">GitHub</a>.
+        </p>
+    </div>
+</footer>
+
     
     <script src="Insertion.js"></script>
 </body>

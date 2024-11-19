@@ -15,6 +15,10 @@ const links=[
     [`./assests/BFS.jpg`,`./BFS/bfs.html`],
     [`./assests/DFS.png`,`./DFS/dfs.html`],
     [`./assests/djiktra.jpg`,`./Djktra/Dijiktra.html`],
+    [`./assests/Bubble.jpg`,`./Graph/graph.html`],
+    [`./assests/Insertion.jpg`,`./LinkedList/linkedlist.html`],
+    [`./assests/binarysearch.jpg`,`./Swarm/swarm.html`],
+    [`./assests/Bubble.jpg`,`./Exponential/exponential.html`],
 
 ];
 

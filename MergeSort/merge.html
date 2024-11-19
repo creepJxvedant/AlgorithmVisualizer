@@ -3,15 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bubble Sort Visualizer with Debug and Step Modes</title>
-    <link rel="stylesheet" href="merge.css">
+    <title>Merge Sort Visualizer with Debug and Step Modes</title>
+    <link rel="stylesheet" href="../CSS/Sortings.css">
+    <link
+    href="https://fonts.googleapis.com/css?family=Oswald&display=swap"
+    rel="stylesheet"
+/>
+<link 
+    href="https://fonts.googleapis.com/css?family=Livvic&display=swap"
+    rel="stylesheet"
+/>
+<link 
+    href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" 
+    rel="stylesheet"
+/>
+<title>Merge Sort Visualization</title>
 </head>
 <body>
-    <h1>Merge Sort Visualizer</h1>
+    <header>
+        <div class="header-container">
+            <div id="settings-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+            
+            <div>
+                <h1>Merge <span>Sort</span> Visualization</h1>
+            </div>
+            
+            <div id="theme-switcher">
+                <i class="fas fa-adjust"></i>
+            </div>
+        </div>
+        <div class="gradient-border"></div>
+    </header>
+
     
-    <div id="array-container"></div>
+    <main> 
+   
+        <section style="display: grid;place-items: center;">
+        <div id="array-container">
+          
+        </div>
     
     <div class="controls">
+        <label for="Size">Size:</label>
+        <input type="number" id="Size" placeholder="Enter Size">
         <button onclick="startAutomaticSort()">Automatic</button>
         <button onclick="setManualMode()">Manual</button>
         <button onclick="stepSort()" id="step-button" disabled>Step</button>
@@ -22,6 +58,51 @@
         <h2>Debug Info</h2>
         <p id="debug-text">Press "Automatic" or "Manual" to begin sorting...</p>
     </div>
+</section >
+<section class="description">
+    <h2>About Merge Sort</h2>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Merge_sort_algorithm_diagram.svg" 
+         alt="Merge Sort Visualization" 
+         class="description-image">
+    <p>
+        Merge Sort is a divide-and-conquer algorithm that splits the list into smaller sublists, sorts each sublist, and then merges them back together. The algorithm repeatedly divides the array in half until each sublist contains a single element and then merges them back together in sorted order.
+    </p>
+    <p>
+        The merge process ensures that the resulting list is sorted because it repeatedly merges smaller sorted lists into larger ones.
+    </p>
+    <h3>Key Features:</h3>
+    <ul>
+        <li><strong>Divide and Conquer:</strong> The list is divided into smaller parts and solved recursively.</li>
+        <li><strong>Stable Sorting:</strong> Maintains the order of equal elements.</li>
+        <li><strong>Efficient for large datasets:</strong> Has an optimal time complexity.</li>
+    </ul>
+    <h3>Advantages:</h3>
+    <ul>
+        <li>Time complexity of <code>O(N log N)</code> in the best, worst, and average cases.</li>
+        <li>Stable and efficient for large datasets.</li>
+        <li>Works well on linked lists.</li>
+    </ul>
+    <h3>Disadvantages:</h3>
+    <ul>
+        <li>Requires additional space for merging, which is <code>O(N)</code>.</li>
+        <li>Not suitable for smaller datasets where simpler algorithms like QuickSort or Insertion Sort may perform better.</li>
+    </ul>
+</section>
+
+</main>
+
+
+
+<footer>
+    <div class="footer-content">
+        <p>© 2024 Algorithm Visualizer. All rights reserved.</p>
+        <p>
+            Built with ❤️ by [Vedant verma and Team]. Find the project on 
+            <a href="https://github.com/" target="_blank">GitHub</a>.
+        </p>
+    </div>
+</footer>
+
     
     <script src="merge.js"></script>
 </body>

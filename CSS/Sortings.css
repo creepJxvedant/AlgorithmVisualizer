@@ -36,6 +36,7 @@ h1 {
     margin: 2px;
     transition: all 0.4s ease;
     border-radius: 3px;
+    transition: all 0.4s ease;
 }
 
 .controls {
@@ -89,6 +90,7 @@ button:disabled {
     color: #4c4545;
     text-align: left;
 }
+
 
 #debug-text {
     font-size: 1.1em;
@@ -205,7 +207,7 @@ button.button {
     font-size: 1.5rem;
     font-weight: bold;
     font-style: italic;
-    color: green;
+    color: #fff;
     display: block;
     margin: 0 auto;
     cursor: pointer;
@@ -222,9 +224,177 @@ button.button:hover {
     flex-direction: column;
     gap:5px;
     top:0;
-    right:0;
+    left:0;
     position: absolute;
 }
 .timeandspace span{
     color: rgb(65, 176, 17);
+}
+
+#debug-array-text{
+color: #979191;
+font-size:1.1em;
+}
+.description {
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    font-family: 'Livvic', sans-serif;
+    line-height: 1.6;
+}
+
+.description h2, .description h3 {
+    font-family: 'Oswald', sans-serif;
+    color: #333;
+}
+
+.description h2 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.description p {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+    color: #555;
+}
+
+.description ul {
+    list-style: disc;
+    padding-left: 2rem;
+    margin: 0.5rem 0;
+    color: #555;
+}
+
+.description ul li {
+    margin-bottom: 0.5rem;
+}
+
+.description img.description-image {
+    display: block;
+    margin: 1rem auto;
+    max-width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.description code {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #e9e9e9;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    color: #d6336c;
+}
+
+footer {
+    background-color: #333;
+    color: #f1f1f1;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 2rem;
+    font-family: 'Montserrat', sans-serif;
+}
+
+footer .footer-content p {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+footer a {
+    color: #00bcd4;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+.bar span.myspan{
+    padding:2px;
+    text-align: center;
+    color: aliceblue;
+    font-size:0.8em;
+}
+
+/* Terminal Style */
+.terminal {
+    background-color: #1e1e1e; /* Dark background to simulate terminal */
+    color: #d4d4d4; /* Light grey text to simulate terminal text */
+    border-radius: 5px; /* Slight rounded corners */
+    padding: 15px;
+    width: 80%;
+    max-width: 700px;
+    margin: 20px auto;
+    font-family: 'Consolas', 'Monaco', monospace; /* Monospaced font for the terminal look */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Subtle shadow for a lifted look */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.terminal label {
+    font-size: 16px;
+    color: #9cdcfe; /* Light blue color for the label to mimic terminal prompts */
+}
+
+.terminal input {
+    background-color: #252526; /* Dark background for the input box */
+    color: #d4d4d4; /* Light grey text */
+    border: none;
+    padding: 8px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 14px;
+    border-radius: 3px;
+    outline: none;
+    width: 100%;
+}
+
+.terminal input:focus {
+    border: 1px solid #4d90fe; /* Light blue outline when focused to simulate terminal */
+}
+
+.terminal button {
+    background-color: #007acc; /* VS Code's blue color for the button */
+    color: #ffffff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 14px;
+    align-self: flex-end; /* Position the button to the right */
+    transition: background-color 0.3s ease;
+}
+
+.terminal button:hover {
+    background-color: #006bb3; /* Darker blue on hover */
+}
+
+.terminal p {
+    font-size: 14px;
+    color: #dcdcdc; /* Light gray color for terminal text */
+}
+
+.terminal .input-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Optional: Add a blinking cursor effect for realism */
+@keyframes cursor-blink {
+    0% { border-color: transparent; }
+    50% { border-color: #d4d4d4; }
+    100% { border-color: transparent; }
+}
+
+.terminal input:focus::after {
+    content: '|';
+    animation: cursor-blink 0.8s step-end infinite;
+    position: absolute;
+    right: 8px;
 }

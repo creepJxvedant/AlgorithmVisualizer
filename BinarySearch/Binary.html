@@ -3,30 +3,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Binary Search Visualizer</title>
-    <link rel="stylesheet" href="./Binary.css">
+    
+    <link href="https://fonts.googleapis.com/css?family=Oswald&display=swap"
+    rel="stylesheet"/>
+
+    <link  href="https://fonts.googleapis.com/css?family=Livvic&display=swap"
+    rel="stylesheet"/>
+
+    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" 
+    rel="stylesheet"/>
+      <link rel="stylesheet" href="../CSS/Sortings.css">
+
+      <style>
+        .bar{
+            width: 12px;
+        }
+      </style>
+    <title>Bubble Sort Visualization</title>
 </head>
 <body>
-    <h1>Binary Search Visualizer</h1>
+
     
-    <div id="array-container"></div>
+    <header>
+        <div class="header-container">
+            <div id="settings-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+            
+            <div>
+                <h1>Binary <span>Search</span> Visualization</h1>
+            </div>
+            
+            <div id="theme-switcher">
+                <i class="fas fa-adjust"></i>
+            </div>
+        </div>
+        <div class="gradient-border"></div>
+    </header>
+
+    <main> 
+   
+        <section style="display: grid;place-items: center;">
+        <div id="array-container">
+            <div class="timeandspace">
+            <span>Time Complexity : O(N2)</span>
+            <span>Space Complexity : O(1)</span>
+        </div>
+        </div>
+        
     <p id="debug-array-text"></p>
+    
     <div class="controls">
         <label for="target-val">Target Value:</label>
         <input type="number" id="target-val" placeholder="Enter target">
-        
-        <button onclick="startAutoSearch()" id="auto-search-button">Auto Search</button>
-        <button onclick="startManualSearch()" id="manual-search-button">Manual Search</button>
-        <button id="next-step-button" onclick="nextStep()" disabled>Next Step</button>
+        <button onclick="startAutoSearch()" id="auto-search-button">Automatic</button>
+        <button onclick="startManualSearch()" id="manual-search-button">Manual</button>
+        <button onclick="nextStep()" id="next-step-button" disabled>Step</button>
         <button onclick="resetArray()">Reset</button>
     </div>
     
     <div id="debug-panel">
         <h2>Debug Info</h2>
-        <p id="debug-text">Press "Start Binary Search" to begin searching...</p>
-        <p id="debug-array-text"></p>
+        <p id="debug-text">Press "Automatic" or "Manual" to begin sorting...</p>
     </div>
+</section >
+
+<section class="description">
+    <h2>About Binary Search</h2>
+    <img src="https://media.geeksforgeeks.org/wp-content/uploads/Binary-Search.png" 
+         alt="Binary Search Example" 
+         class="description-image">
+    <p>
+        Binary Search is a highly efficient algorithm for finding an element in a sorted array. It works by repeatedly dividing the search interval in half and focusing only on the half where the target element could exist.
+    </p>
+    <p>
+        Starting with the entire array, the algorithm compares the target element to the middle element. If they match, the search is complete. If the target is smaller, the search continues in the left half; otherwise, it continues in the right half.
+    </p>
+    <h3>Key Features:</h3>
+    <ul>
+        <li><strong>Efficient:</strong> Operates with a time complexity of <code>O(log N)</code>.</li>
+        <li><strong>Requires Sorted Data:</strong> The array must be sorted for the algorithm to work.</li>
+        <li><strong>Divide-and-Conquer:</strong> Divides the problem space into halves at each step.</li>
+    </ul>
+    <h3>Advantages:</h3>
+    <ul>
+        <li>Extremely fast for large datasets compared to linear search.</li>
+        <li>Minimal space requirement as it operates in-place.</li>
+    </ul>
+    <h3>Disadvantages:</h3>
+    <ul>
+        <li>Not suitable for unsorted arrays without preprocessing.</li>
+        <li>Can be challenging to implement in recursive or complex scenarios.</li>
+    </ul>
+</section>
+
+
+
+<footer>
+    <div class="footer-content">
+        <p>© 2024 Algorithm Visualizer. All rights reserved.</p>
+        <p>
+            Built with ❤️ by [Vedant verma and Team]. Find the project on 
+            <a href="https://github.com/" target="_blank">GitHub</a>.
+        </p>
+    </div>
+</footer>
+
+
+</main>
+
     
-    <script src="binary.js"></script>
+    <script src="Binary.js"></script>
 </body>
 </html>
