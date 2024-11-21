@@ -3,22 +3,22 @@ const wrapper=document.querySelector(".Middle .card-container");
 
 
 const links=[
-    [`./assests/Bubble.jpg`,`./BubbleSort/Bubble.html`],
-    [`./assests/Insertion.jpg`,`./InsertionSort/insertion.html`],
-    [`./assests/binarysearch.jpg`,`./BinarySearch/Binary.html`],
-    [`./assests/heapsort.jpg`,`./HeapSort/heap.html`],
-    [`./assests/linearsearch.jpg`,`./LinearSearch/linear.html`],
-    [`./assests/quicksort.png`,`./QuickSort/quick.html`],
-    [`./assests/mergesort.png`,`./MergeSort/merge.html`],
-    [`./assests/selectionsort.png`,`./SelectionSort/selection.html`],
-    [`./assests/astar.jpg`,`./Astar/Astar.html`],
-    [`./assests/BFS.jpg`,`./BFS/bfs.html`],
-    [`./assests/DFS.png`,`./DFS/dfs.html`],
-    [`./assests/djiktra.jpg`,`./Djktra/Dijiktra.html`],
-    [`./assests/Bubble.jpg`,`./Graph/graph.html`],
-    [`./assests/Insertion.jpg`,`./LinkedList/linkedlist.html`],
-    [`./assests/binarysearch.jpg`,`./Swarm/swarm.html`],
-    [`./assests/exponential.png`,`./Exponential/exponential.html`],
+    [`./assests/BubbleSort.png`,`./BubbleSort/Bubble.html`],
+    [`./assests/InsertionSort.png`,`./InsertionSort/insertion.html`],
+    [`./assests/BinarySearch.png`,`./BinarySearch/Binary.html`],
+    [`./assests/HeapSort.png`,`./HeapSort/heap.html`],
+    [`./assests/LinearSearch.png`,`./LinearSearch/linear.html`],
+    [`./assests/QuickSort.png`,`./QuickSort/quick.html`],
+    [`./assests/MergeSort.png`,`./MergeSort/merge.html`],
+    [`./assests/SelectionSort.png`,`./SelectionSort/selection.html`],
+    [`./assests/Astar.png`,`./Astar/Astar.html`],
+    [`./assests/BreadthFirst.png`,`./BFS/bfs.html`],
+    [`./assests/DepthFirst.png`,`./DFS/dfs.html`],
+    [`./assests/dijkstra.png`,`./Djktra/Dijiktra.html`],
+    [`./assests/Graph.png`,`./Graph/graph.html`],
+    [`./assests/LinkedList.png`,`./LinkedList/linkedlist.html`],
+    [`./assests/BiDirectional.png`,`./BiDirectional/bidirectional.html`],
+    [`./assests/Exponential.png`,`./Exponential/exponential.html`],
 
 ];
 
