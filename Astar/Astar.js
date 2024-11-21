@@ -1,3 +1,6 @@
+import { ModulegenerateMaze } from "./generateMaze.js";
+import { setStartNode, setEndNode, toggleWall, handleCellDrag } from "./HandleButtons.js";
+
 const numRows = 20;
 const numCols = 50;
 let grid = [];
@@ -7,25 +10,32 @@ let openSet = [];
 let closedSet = [];
 let path = [];
 let isAutomatic = false;
-let isMouseDown = false; // Track if mouse is pressed
+let isMouseDown = false;
+let isRunning = false;
 
 const gridContainer = document.getElementById("grid-container");
-const nextButton = document.getElementById("next-button");
-const startAutomaticButton = document.getElementById("start-automatic");
+const nextButton = document.getElementById("next");
+const startAutomaticButton = document.getElementById("automatic");
+const startManualButton = document.getElementById("manual");
+const resetButton = document.getElementById("reset");
+const generateButton = document.getElementById("generate");
 const debugText = document.getElementById("debug-text");
 
-gridContainer.addEventListener('mousedown', () => isMouseDown = true);
-gridContainer.addEventListener('mouseup', () => isMouseDown = false);
-gridContainer.addEventListener('mouseleave', () => isMouseDown = false);
-
+gridContainer.addEventListener('mousedown', () => (isMouseDown = true));
+gridContainer.addEventListener('mouseup', () => (isMouseDown = false));
+gridContainer.addEventListener('mouseleave', () => (isMouseDown = false));
+nextButton.addEventListener('click', nextStep);
+startAutomaticButton.addEventListener('click', startAutomatic);
+startManualButton.addEventListener('click', startManual);
+resetButton.addEventListener('click', resetGrid);
+generateButton.addEventListener('click', generateMaze);
 
 function createGrid() {
-    gridContainer.innerHTML = ''; // Clear previous grid
+    gridContainer.innerHTML = '';
     grid = [];
-    
     gridContainer.style.gridTemplateColumns = `repeat(${numCols}, 18px)`;
     gridContainer.style.gridTemplateRows = `repeat(${numRows}, 18px)`;
-    
+
     for (let row = 0; row < numRows; row++) {
         let gridRow = [];
         for (let col = 0; col < numCols; col++) {
@@ -52,7 +62,7 @@ function createCell(row, col) {
         h: 0,
         previous: null,
         visited: false,
-        neighbors: []
+        neighbors: [],
     };
 }
 
@@ -61,8 +71,8 @@ function createCellDiv(cell) {
     div.classList.add('cell');
     div.dataset.row = cell.row;
     div.dataset.col = cell.col;
-    div.addEventListener('click', () => handleCellClick(div, cell));
-    div.addEventListener('mousemove', () => handleCellDrag(div, cell));
+    div.addEventListener('click', () => !isRunning && handleCellClick(div, cell));
+    div.addEventListener('mousemove', () => !isRunning && isMouseDown && handleCellDrag(div, cell));
     return div;
 }
 
@@ -70,56 +80,25 @@ function assignNeighbors() {
     for (let row = 0; row < numRows; row++) {
         for (let col = 0; col < numCols; col++) {
             const node = grid[row][col];
-            if (row > 0) node.neighbors.push(grid[row - 1][col]); // up
-            if (row < numRows - 1) node.neighbors.push(grid[row + 1][col]); // down
-            if (col > 0) node.neighbors.push(grid[row][col - 1]); // left
-            if (col < numCols - 1) node.neighbors.push(grid[row][col + 1]); // right
+            if (row > 0) node.neighbors.push(grid[row - 1][col]);
+            if (row < numRows - 1) node.neighbors.push(grid[row + 1][col]);
+            if (col > 0) node.neighbors.push(grid[row][col - 1]);
+            if (col < numCols - 1) node.neighbors.push(grid[row][col + 1]);
         }
     }
 }
 
 function handleCellClick(div, cell) {
     if (!startNode) {
+        startNode = cell;
         setStartNode(cell, div);
     } else if (!endNode) {
+        endNode = cell;
         setEndNode(cell, div);
     } else if (!cell.isStart && !cell.isEnd) {
         toggleWall(cell, div);
-    }
-}
-
-// Set the start node
-function setStartNode(cell, div) {
-    startNode = cell;
-    cell.isStart = true;
-    div.classList.add('start');
-}
-
-function setEndNode(cell, div) {
-    endNode = cell;
-    cell.isEnd = true;
-    div.classList.add('end');
-}
-
-// Toggle the wall state of a cell
-function toggleWall(cell, div) {
-    cell.isWall = !cell.isWall;
-    div.classList.toggle('wall', cell.isWall);
-}
-
-function getCellFromEvent(event) {
-    const row = parseInt(event.target.dataset.row);
-    const col = parseInt(event.target.dataset.col);
-    if (!isNaN(row) && !isNaN(col)) {
-        return grid[row][col];
-    }
-    return null;
-}
-
-function handleCellDrag(div, cell) {
-    if (isMouseDown && !cell.isStart && !cell.isEnd && !cell.isWall) {
-        cell.isWall = true;
-        div.classList.add('wall');
+    } else {
+        alert("Cannot assign values while running.");
     }
 }
 
@@ -131,6 +110,7 @@ function resetGrid() {
 }
 
 function resetState() {
+    isRunning = false;
     startNode = null;
     endNode = null;
     openSet = [];
@@ -142,7 +122,7 @@ function resetState() {
 }
 
 function heuristic(a, b) {
-    return Math.abs(a.row - b.row) + Math.abs(a.col - b.col); // Manhattan distance
+    return Math.abs(a.row - b.row) + Math.abs(a.col - b.col);
 }
 
 function startManual() {
@@ -151,6 +131,7 @@ function startManual() {
         return;
     }
 
+    isRunning = true;
     openSet = [startNode];
     startNode.g = 0;
     startNode.f = heuristic(startNode, endNode);
@@ -182,7 +163,7 @@ function nextStep() {
 }
 
 function updateNeighbors(current) {
-    current.neighbors.forEach(neighbor => {
+    current.neighbors.forEach((neighbor) => {
         if (!neighbor.visited && !neighbor.isWall) {
             const tempG = current.g + 1;
             const h = heuristic(neighbor, endNode);
@@ -205,12 +186,9 @@ function markAsVisited(current) {
 
 function animateFollowingNodes(current) {
     const cellDiv = document.querySelector(`[data-row="${current.row}"][data-col="${current.col}"]`);
-    
-    // Apply the color animation to show it following its neighbors
     cellDiv.style.transition = "background-color 0.4s ease, transform 0.4s ease";
-    cellDiv.style.backgroundColor = 'rgba(255, 255, 0, 0.7)'; // Yellow flow color
-    cellDiv.style.transform = "scale(1.1)"; // Slight enlargement for animation effect
-    
+    cellDiv.style.backgroundColor = 'rgba(255, 255, 0, 0.7)';
+    cellDiv.style.transform = "scale(1.1)";
     setTimeout(() => {
         cellDiv.style.transform = "scale(1)";
     }, 400);
@@ -224,28 +202,24 @@ function reconstructPath() {
         temp = temp.previous;
     }
 
-    // Include the start node in the path
     path.unshift(startNode);
 
-    // Animate the path
     path.forEach((node, index) => {
         setTimeout(() => {
             const nodeDiv = document.querySelector(`[data-row="${node.row}"][data-col="${node.col}"]`);
             nodeDiv.classList.add('path');
             nodeDiv.style.transition = "background-color 0.3s ease, transform 0.3s ease";
-            nodeDiv.style.backgroundColor = 'rgba(0, 0, 255, 0.7)'; // Path color
+            nodeDiv.style.backgroundColor = 'rgba(0, 0, 255, 0.7)';
             nodeDiv.style.transform = "scale(1.2)";
             setTimeout(() => {
                 nodeDiv.style.transform = "scale(1)";
             }, 300);
-        }, index * 50); // Adjust delay between each step
+        }, index * 100);
     });
 
     debugText.innerText = 'Path found!';
     nextButton.disabled = true;
 }
-
-
 
 async function startAutomatic() {
     if (!startNode || !endNode) {
@@ -253,6 +227,7 @@ async function startAutomatic() {
         return;
     }
 
+    isRunning = true;
     openSet = [startNode];
     startNode.g = 0;
     startNode.f = heuristic(startNode, endNode);
@@ -276,34 +251,17 @@ async function startAutomatic() {
         document.querySelector(`[data-row="${current.row}"][data-col="${current.col}"]`).classList.add('visited');
         debugText.innerText = `Visiting node at (${current.row}, ${current.col})`;
 
-        await new Promise(resolve => setTimeout(resolve, 20));
+        await new Promise((resolve) => setTimeout(resolve, 20));
     }
 
     debugText.innerText = 'No path found.';
+    isRunning = false;
 }
 
 function generateMaze() {
-    resetState(); // Clear existing state to prevent conflicts
-    for (let row = 0; row < numRows; row++) {
-        for (let col = 0; col < numCols; col++) {
-            const cell = grid[row][col];
-            const cellDiv = document.querySelector(`[data-row="${row}"][data-col="${col}"]`);
-            
-            // Skip start and end nodes to avoid overwriting them
-            if (cell.isStart || cell.isEnd) continue;
-
-            // Randomly decide if this cell should be a wall
-            if (Math.random() < 0.3) { // Adjust probability (0.3 for ~30% walls)
-                cell.isWall = true;
-                cellDiv.classList.add('wall');
-            } else {
-                cell.isWall = false;
-                cellDiv.classList.remove('wall');
-            }
-        }
-    }
+    resetGrid();
+    ModulegenerateMaze(numRows, numCols, grid);
     debugText.innerText = 'Random maze generated!';
 }
-
 
 createGrid();

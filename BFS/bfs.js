@@ -1,44 +1,38 @@
-// Global Variables
+import { ModulegenerateMaze } from "../Modules/generateMaze.js";
+import { setStartNode, setEndNode, toggleWall, handleCellDrag } from "../Modules/HandleButtons.js";
+
 const numRows = 20;
 const numCols = 50;
-const wallProbability = 0.3; // For maze generation
-
 let grid = [];
 let startNode = null;
 let endNode = null;
 let queue = [];
 let visitedNodes = [];
-let shortestPaths = [];
+let path = [];
 let isMouseDown = false;
-let foundPaths = false;
-let isAlgorithmRunning = false;
+let isRunning = false;
 
-// DOM Elements
 const gridContainer = document.getElementById("grid-container");
-const nextButton = document.getElementById("next-button");
-const startAutomaticButton = document.getElementById("start-automatic");
+const nextButton = document.getElementById("next");
+const startAutomaticButton = document.getElementById("automatic");
+const startManualButton = document.getElementById("manual");
+const resetButton = document.getElementById("reset");
+const generateButton = document.getElementById("generate");
 const debugText = document.getElementById("debug-text");
 
 // Event Listeners
 gridContainer.addEventListener("mousedown", () => (isMouseDown = true));
 gridContainer.addEventListener("mouseup", () => (isMouseDown = false));
 gridContainer.addEventListener("mouseleave", () => (isMouseDown = false));
+nextButton.addEventListener("click", nextStep);
+startAutomaticButton.addEventListener("click", startAutomatic);
+startManualButton.addEventListener("click", startManual);
+resetButton.addEventListener("click", resetGrid);
+generateButton.addEventListener("click", generateMaze);
 
-// Utility Functions
-function animateCell(cellDiv, { color, scale = 1, duration = 400 }) {
-    cellDiv.style.transition = `background-color ${duration}ms ease, transform ${duration}ms ease`;
-    cellDiv.style.backgroundColor = color;
-    cellDiv.style.transform = `scale(${scale})`;
-    setTimeout(() => (cellDiv.style.transform = "scale(1)"), duration);
-}
-
-function updateDebugText(message) {
-    debugText.innerText = message;
-}
-
-// Grid Initialization
+// Create Grid
 function createGrid() {
-    gridContainer.innerHTML = "";
+    gridContainer.innerHTML = '';
     grid = [];
     gridContainer.style.gridTemplateColumns = `repeat(${numCols}, 18px)`;
     gridContainer.style.gridTemplateRows = `repeat(${numRows}, 18px)`;
@@ -71,12 +65,12 @@ function createCell(row, col) {
 }
 
 function createCellDiv(cell) {
-    const div = document.createElement("div");
-    div.classList.add("cell");
+    const div = document.createElement('div');
+    div.classList.add('cell');
     div.dataset.row = cell.row;
     div.dataset.col = cell.col;
-    div.addEventListener("click", () => handleCellClick(div, cell));
-    div.addEventListener("mousemove", () => handleCellDrag(div, cell));
+    div.addEventListener('click', () => !isRunning && handleCellClick(div, cell));
+    div.addEventListener('mousemove', () =>!isRunning && isMouseDown && handleCellDrag(div, cell));
     return div;
 }
 
@@ -92,39 +86,27 @@ function assignNeighbors() {
     }
 }
 
-// Cell Interaction Handlers
 function handleCellClick(div, cell) {
-    if (!startNode) setStartNode(cell, div);
-    else if (!endNode) setEndNode(cell, div);
-    else toggleWall(cell, div);
-}
-
-function handleCellDrag(div, cell) {
-    if (isMouseDown && !cell.isStart && !cell.isEnd) {
-        toggleWall(cell, div, true);
+    if (!startNode) {
+        startNode = cell;
+        setStartNode(cell, div);
+    } else if (!endNode) {
+        endNode = cell;
+        setEndNode(cell, div);
+    } else if (!cell.isStart && !cell.isEnd) {
+        toggleWall(cell, div);
+    } else {
+        alert("Cannot assign values while running.");
     }
 }
 
-function setStartNode(cell, div) {
-    startNode = cell;
-    cell.isStart = true;
-    div.classList.add("start");
-    animateCell(div, { color: "rgba(0, 128, 0,1)", scale: 1.2 }); 
+
+function generateMaze() {
+    resetGrid();
+    ModulegenerateMaze(numRows, numCols, grid);
+    debugText.innerText = 'Random maze generated!';
 }
 
-function setEndNode(cell, div) {
-    endNode = cell;
-    cell.isEnd = true;
-    div.classList.add("end");
-    animateCell(div, { color: "rgba(255, 0, 0, 0.7)", scale: 1.2 }); // Red
-}
-
-function toggleWall(cell, div, force = false) {
-    cell.isWall = force ? true : !cell.isWall;
-    div.classList.toggle("wall", cell.isWall);
-}
-
-// Algorithm State Reset
 function resetGrid() {
     createGrid();
     updateDebugText('Click "Start Manual" or "Start Automatic" to begin.');
@@ -135,41 +117,29 @@ function resetState() {
     endNode = null;
     queue = [];
     visitedNodes = [];
-    shortestPaths = [];
-    nextButton.disabled = true;
+    path = [];
+    isRunning = false;
+    nextButton.disabled = false;
     startAutomaticButton.disabled = false;
-    foundPaths = false;
-    isAlgorithmRunning = false;
 }
 
-// Maze Generation
-function generateMaze() {
-    resetState();
-    grid.forEach((row, rowIndex) =>
-        row.forEach((cell, colIndex) => {
-            const cellDiv = document.querySelector(`[data-row="${rowIndex}"][data-col="${colIndex}"]`);
-            if (cell.isStart || cell.isEnd) return;
 
-            cell.isWall = Math.random() < wallProbability;
-            cellDiv.classList.toggle("wall", cell.isWall);
-        })
-    );
-    updateDebugText("Random maze generated!");
-}
-
-// Manual Algorithm Execution
 function startManual() {
-    if (!startNode || !endNode) return alert("Please select both start and end nodes.");
-    queue.push(startNode);
+    if (!startNode || !endNode) {
+        alert("Please select both start and end nodes.");
+        return;
+    }
+    isRunning = true;
+    queue = [startNode];
     startNode.visited = true;
     nextButton.disabled = false;
     startAutomaticButton.disabled = true;
-    updateDebugText('Manual mode started. Click "Next Step" to proceed.');
+    debugText.innerText = 'Manual mode started. Click "Next Step" to proceed.';
 }
 
 function nextStep() {
     if (queue.length === 0) {
-        updateDebugText("No path found.");
+        debugText.innerText = "No path found.";
         return;
     }
 
@@ -177,43 +147,45 @@ function nextStep() {
     visitedNodes.push(current);
 
     if (current === endNode) {
-        reconstructPath(current);
-        updateDebugText("Shortest path found!");
+        reconstructPath();
         return;
     }
 
-    exploreNeighbors(current);
+    updateNeighbors(current);
     markAsVisited(current);
 }
 
-// Automatic Algorithm Execution
 async function startAutomatic() {
-    if (!startNode || !endNode) return alert("Please select both start and end nodes.");
-    queue.push(startNode);
+    if (!startNode || !endNode) {
+        alert("Please select both start and end nodes.");
+        return;
+    }
+    isRunning = true;
+    queue = [startNode];
     startNode.visited = true;
     nextButton.disabled = true;
     startAutomaticButton.disabled = true;
-    updateDebugText("Automatic mode started.");
+    debugText.innerText = "Automatic mode started.";
 
     while (queue.length > 0) {
         const current = queue.shift();
         visitedNodes.push(current);
 
         if (current === endNode) {
-            reconstructPath(current);
-            break;
+            reconstructPath();
+            return;
         }
 
-        exploreNeighbors(current);
+        updateNeighbors(current);
         markAsVisited(current);
         await new Promise((resolve) => setTimeout(resolve, 20));
     }
 
-    if (!foundPaths) updateDebugText("No path found.");
+    debugText.innerText = "No path found.";
+    isRunning = false;
 }
 
-// Pathfinding Helpers
-function exploreNeighbors(current) {
+function updateNeighbors(current) {
     current.neighbors.forEach((neighbor) => {
         if (!neighbor.visited && !neighbor.isWall) {
             neighbor.visited = true;
@@ -225,28 +197,26 @@ function exploreNeighbors(current) {
 
 function markAsVisited(node) {
     const nodeDiv = document.querySelector(`[data-row="${node.row}"][data-col="${node.col}"]`);
-    animateCell(nodeDiv, { color: "rgba(255, 255, 0, 0.7)", scale: 1.1 }); // Yellow
     nodeDiv.classList.add("visited");
 }
 
-function reconstructPath(node) {
-    const path = [];
-    while (node) {
-        path.push(node);
-        node = node.previous;
+function reconstructPath() {
+    let temp = endNode;
+    while (temp.previous) {
+        path.unshift(temp);
+        temp = temp.previous;
     }
-    path.reverse();
+    path.unshift(startNode);
 
     path.forEach((node, index) => {
         setTimeout(() => {
             const nodeDiv = document.querySelector(`[data-row="${node.row}"][data-col="${node.col}"]`);
-            animateCell(nodeDiv, { color: "rgba(0, 0, 255, 0.7)", scale: 1.1 }); // Green
             nodeDiv.classList.add("path");
         }, index * 50);
     });
 
-    foundPaths = true;
+    debugText.innerText = "Path found!";
 }
 
-// Initialize
+// Initialize Grid
 createGrid();

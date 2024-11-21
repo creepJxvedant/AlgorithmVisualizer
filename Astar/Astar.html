@@ -17,11 +17,11 @@
     <div id="grid-container"></div>
 
     <div class="controls">
-        <button onclick="startManual()" id="start-manual" class="btn">Start Manual</button>
-        <button onclick="startAutomatic()" id="start-automatic" class="btn">Start Automatic</button>
-        <button onclick="nextStep()" id="next-button" class="btn" disabled>Next Step</button>
-        <button onclick="resetGrid()" class="btn">Reset</button>
-        <button onclick="generateMaze()" class="btn">Generate Maze</button>
+        <button id="manual" class="btn">Start Manual</button>
+        <button id="automatic" class="btn">Start Automatic</button>
+        <button id="next" class="btn" disabled>Next Step</button>
+        <button id="reset" class="btn">Reset</button>
+        <button id="generate" class="btn">Generate Maze</button>
     </div>
 
     <div id="debug-panel">
@@ -120,7 +120,7 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="Astar.js"></script>
+    <script type="module" src="Astar.js"></script>
 
 </body>
 </html>

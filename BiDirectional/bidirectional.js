@@ -1,13 +1,13 @@
-// Define the grid dimensions
+
 const numRows = 20;
 const numCols = 50;
 let grid = [];
 let startNode = null;
 let endNode = null;
-let isRunningAutomatic = false; // Flag for automatic mode
-let isMouseDown = false; // Flag to track mouse dragging state
+let isRunningAutomatic = false; 
+let isMouseDown = false; 
+let manualState = null;
 
-// DOM Elements
 const gridContainer = document.getElementById("grid-container");
 const nextButton = document.getElementById("next-button");
 const startManualButton = document.getElementById("start-manual");
@@ -18,7 +18,6 @@ gridContainer.addEventListener('mousedown', () => isMouseDown = true);
 gridContainer.addEventListener('mouseup', () => isMouseDown = false);
 gridContainer.addEventListener('mouseleave', () => isMouseDown = false);
 
-// Initialize the grid when the page loads
 function createGrid() {
     gridContainer.innerHTML = "";
     grid = [];
@@ -55,7 +54,6 @@ function createCell(row, col) {
     };
 }
 
-// Create the HTML div for a cell
 function createCellDiv(cell) {
     const div = document.createElement("div");
     div.classList.add("cell");
@@ -66,7 +64,6 @@ function createCellDiv(cell) {
     return div;
 }
 
-// Handle cell click to set start, end, or wall
 function handleCellClick(div, cell) {
     if (!startNode) {
         setStartNode(cell, div);
@@ -77,21 +74,18 @@ function handleCellClick(div, cell) {
     }
 }
 
-// Set the start node
 function setStartNode(cell, div) {
     startNode = cell;
     cell.isStart = true;
     div.classList.add('start');
 }
 
-// Set the end node
 function setEndNode(cell, div) {
     endNode = cell;
     cell.isEnd = true;
     div.classList.add('end');
 }
 
-// Toggle the wall state of a cell
 function toggleWall(cell, div) {
     cell.isWall = !cell.isWall;
     div.classList.toggle('wall', cell.isWall);
@@ -104,7 +98,6 @@ function handleCellDrag(div, cell) {
     }
 }
 
-// Reset the grid and state
 function resetGrid() {
     gridContainer.innerHTML = '';
     resetState();
@@ -112,18 +105,7 @@ function resetGrid() {
     debugText.innerText = 'Click "Start Manual" or "Start Automatic" to begin.';
 }
 
-// Reset state
-function resetState() {
-    startNode = null;
-    endNode = null;
-    grid = [];
-    isMouseDown = false;
-    nextButton.disabled = false;
-    startAutomaticButton.disabled = false;
-    startManualButton.disabled = false;
-}
 
-// Start the automatic Bi-Directional Dijkstra's algorithm
 function startAutomatic() {
     if (!startNode || !endNode) {
         debugText.innerText = "Please set both start and end points.";
@@ -139,7 +121,6 @@ function startAutomatic() {
     runBiDirectionalDijkstra();
 }
 
-// Run the Bi-Directional Dijkstra Algorithm
 function runBiDirectionalDijkstra() {
     let pqStart = [startNode]; // Priority queue for the start side
     let pqEnd = [endNode]; // Priority queue for the end side
@@ -157,7 +138,7 @@ function runBiDirectionalDijkstra() {
             return;
         }
 
-        // Expand from the start side
+       
         let currentStart = pqStart.shift();
         visitedFromStart.add(currentStart);
 
@@ -170,7 +151,6 @@ function runBiDirectionalDijkstra() {
         markAsVisited(currentStart);
         expandNode(currentStart, pqStart, visitedFromStart, true);
 
-        // Expand from the end side
         let currentEnd = pqEnd.shift();
         visitedFromEnd.add(currentEnd);
 
@@ -182,7 +162,7 @@ function runBiDirectionalDijkstra() {
         markAsVisited(currentEnd);
         expandNode(currentEnd, pqEnd, visitedFromEnd, false);
 
-    }, 30); // Set interval speed for automatic mode
+    }, 30);
 }
 
 function markAsVisited(current) {
@@ -194,7 +174,6 @@ function markAsVisited(current) {
 function animateFollowingNodes(current) {
     const cellDiv = document.querySelector(`[data-row="${current.row}"][data-col="${current.col}"]`);
     
-    // Apply the color animation to show it following its neighbors
     cellDiv.style.transition = "background-color 0.4s ease, transform 0.4s ease";
     cellDiv.style.backgroundColor = 'rgba(255, 255, 0, 0.7)'; // Yellow flow color
     cellDiv.style.transform = "scale(1.1)"; // Slight enlargement for animation effect
@@ -204,7 +183,6 @@ function animateFollowingNodes(current) {
     }, 400);
 }
 
-// Expanding a node: updates the distances and adds neighbors to the priority queue
 function expandNode(current, pq, visited, fromStart) {
     let neighbors = getNeighbors(current);
     for (let neighbor of neighbors) {
@@ -218,7 +196,7 @@ function expandNode(current, pq, visited, fromStart) {
                 neighbor.distanceFromStart = newDistance;
                 neighbor.previousFromStart = current;
                 pq.push(neighbor);
-                pq.sort((a, b) => a.distanceFromStart - b.distanceFromStart); // Maintain priority queue order
+                pq.sort((a, b) => a.distanceFromStart - b.distanceFromStart);
                 div.classList.add("visited");
             }
         } else {
@@ -226,16 +204,107 @@ function expandNode(current, pq, visited, fromStart) {
                 neighbor.distanceFromEnd = newDistance;
                 neighbor.previousFromEnd = current;
                 pq.push(neighbor);
-                pq.sort((a, b) => a.distanceFromEnd - b.distanceFromEnd); // Maintain priority queue order
+                pq.sort((a, b) => a.distanceFromEnd - b.distanceFromEnd); 
                 div.classList.add("visited");
             }
         }
     }
 }
 
-// Reconstruct path once both searches meet
+
+
+function startManual() {
+    if (!startNode || !endNode) {
+        debugText.innerText = "Please set both start and end points.";
+        return;
+    }
+
+    startNode.distanceFromStart = 0;
+    endNode.distanceFromEnd = 0;
+
+    manualState = {
+        pqStart: [startNode],
+        pqEnd: [endNode],
+        visitedFromStart: new Set(),
+        visitedFromEnd: new Set(),
+        meetingPoint: null,
+        isCompleted: false,
+    };
+
+    startAutomaticButton.disabled = true;
+    startManualButton.disabled = true;  
+    nextButton.disabled = false;        
+    debugText.innerText = "Manual mode started. Click 'Next' to proceed.";
+}
+
+function nextStep() {
+    if (!manualState || manualState.isCompleted) return;
+
+    const { pqStart, pqEnd, visitedFromStart, visitedFromEnd } = manualState;
+
+    console.log("pqStart:", pqStart);
+    console.log("pqEnd:", pqEnd);
+
+    if (pqStart.length === 0 && pqEnd.length === 0) {
+        debugText.innerText = "No path found.";
+        manualState.isCompleted = true;
+        nextButton.disabled = true; // Disable Step button
+        return;
+    }
+
+    if (pqStart.length > 0) {
+        let currentStart = pqStart.shift();
+        visitedFromStart.add(currentStart);
+
+        if (visitedFromEnd.has(currentStart)) {
+            manualState.meetingPoint = currentStart;
+            finalizeManualPath();
+            return;
+        }
+
+        markAsVisited(currentStart);
+        expandNode(currentStart, pqStart, visitedFromStart, true);
+    }
+
+    if (pqEnd.length > 0) {
+        let currentEnd = pqEnd.shift();
+        visitedFromEnd.add(currentEnd);
+
+        if (visitedFromStart.has(currentEnd)) {
+            manualState.meetingPoint = currentEnd;
+            finalizeManualPath();
+            return;
+        }
+
+        markAsVisited(currentEnd);
+        expandNode(currentEnd, pqEnd, visitedFromEnd, false);
+    }
+}
+
+
+
+function finalizeManualPath() {
+    const { meetingPoint } = manualState;
+    reconstructPathFromMeetingPoint(meetingPoint);
+    debugText.innerText = "Path found!";
+    nextButton.disabled = true; 
+    manualState.isCompleted = true;
+}
+
+function resetState() {
+    startNode = null;
+    endNode = null;
+    grid = [];
+    isMouseDown = false;
+    nextButton.disabled = true; // Disable Step button initially
+    startAutomaticButton.disabled = false;
+    startManualButton.disabled = false;
+    manualState = null;
+}
+
+
+
 function reconstructPathFromMeetingPoint(meetingNode, pqStart, pqEnd) {
-    // You can handle the path reconstruction from both ends
     let currentNode = meetingNode;
     let path = [];
 
@@ -244,7 +313,6 @@ function reconstructPathFromMeetingPoint(meetingNode, pqStart, pqEnd) {
         currentNode = currentNode.previousFromStart || currentNode.previousFromEnd;
     }
 
-    // Do something with the path, like displaying it visually or logging it
     debugText.innerText = `Found a path with length: ${path.length}`;
     path.reverse(); // Reverse the path so that it goes from start to end
     for (const node of path) {
@@ -253,11 +321,9 @@ function reconstructPathFromMeetingPoint(meetingNode, pqStart, pqEnd) {
     }
 }
 
-// Reconstruct path from the meeting point
 function reconstructPathFromMeetingPoint(meetingPoint) {
     let path = [];
 
-    // Reconstruct path from start to meeting point
     let current = meetingPoint;
     while (current !== startNode) {
         path.push(current);
@@ -266,7 +332,6 @@ function reconstructPathFromMeetingPoint(meetingPoint) {
     path.push(startNode);
     path.reverse();
 
-    // Reconstruct path from end to meeting point
     current = meetingPoint;
     while (current !== endNode) {
         path.push(current);
@@ -284,18 +349,16 @@ function reconstructPathFromMeetingPoint(meetingPoint) {
             nodeDiv.style.backgroundColor = 'rgba(0, 0, 255, 0.7)';
             nodeDiv.style.transform = "scale(1.2)";
             
-            // Reset scaling effect after the animation
             setTimeout(() => {
                 nodeDiv.style.transform = "scale(1)";
             }, 300);
-        }, index * 100); // Delay each step for smooth animation
+        }, index * 100); 
     });
 
     debugText.innerText = 'Path found!';
-    nextButton.disabled = true; // Disable next button after path is found
+    nextButton.disabled = true; 
 }
 
-// Get neighbors of a cell for movement (up, down, left, right)
 function getNeighbors(cell) {
     const directions = [
         { row: -1, col: 0 }, // Up
